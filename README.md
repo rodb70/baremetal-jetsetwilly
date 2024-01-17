@@ -29,3 +29,10 @@ Cheat mode is activated just like in the orginal by typing the cheat code. Once
 activated, switching levels is as simple as typing the level number followed by
 ENTER. Levels lower than 10 do not need to be preceded by a zero, i.e. 01 or 1
 has the same effect.
+
+## Copy protection
+
+The original game needed a "code card" to start the game after loading. This was
+an early attempt at copy protection. This port defaults to not requiring you to
+enter any codes. If you want to experience entering those codes, you can comment
+out the line in the Makefile "DEFINES += -DNOCODES" with a proceeding hash (#).
