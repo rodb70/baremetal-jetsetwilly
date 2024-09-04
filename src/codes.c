@@ -47,7 +47,7 @@ void DrawCursor(int pos)
     Video_Write(pixel + pos * 24, codesCell);
 }
 
-void GetCode()
+void GetCode( void )
 {
     char    location[5] = "\x2\x7";
 
@@ -74,7 +74,7 @@ void GetCode()
     DrawCursor(3);
 }
 
-void DoCodesDrawer()
+void DoCodesDrawer( void )
 {
     codesCell[3] = 0x7;
     DrawCursor(codesPos);
@@ -90,7 +90,7 @@ void DoCodesDrawer()
     codesKey = 0;
 }
 
-void DoCodesTicker()
+void DoCodesTicker( void )
 {
     BYTE    swap;
 
@@ -113,7 +113,7 @@ void DoCodesTicker()
     codesPos &= 3;
 }
 
-void DoCodesResponder()
+void DoCodesResponder( void )
 {
     switch (gameInput)
     {

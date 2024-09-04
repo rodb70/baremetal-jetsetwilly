@@ -12,18 +12,18 @@ int     gameRunning = 1, gameInput;
 
 int     videoFlash = 0;
 
-void DoNothing()
+void DoNothing( void )
 {
 }
 
-void DoQuit()
+void DoQuit( void )
 {
     gameRunning = 0;
     Drawer = DoNothing;
     Ticker = DoNothing;
 }
 
-int main()
+int main( void )
 {
     int flash = 0;
 

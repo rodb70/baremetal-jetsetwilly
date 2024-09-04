@@ -1543,12 +1543,12 @@ void Level_RestoreItems()
     }
 }
 
-void DoTile()
+void DoTile( void )
 {
     Video_DrawTile(curCell, curTile->gfx, curTile->paper & 0xf, curTile->ink);
 }
 
-void DoItem()
+void DoItem( void )
 {
     curTile->ink = (((curTile->ink) - 2) & 3) + 3;
     DoTile();

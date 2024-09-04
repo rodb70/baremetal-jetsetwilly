@@ -15,7 +15,7 @@ const BYTE          *keyState;
 UINT                *texPixels;
 int                 texPitch;
 
-void System_StartFrame()
+void System_StartFrame( void )
 {
     static UINT time = 0;
 
@@ -27,22 +27,22 @@ void System_StartFrame()
     time += 1000;
 }
 
-void System_LockTexture()
+void System_LockTexture( void )
 {
     SDL_LockTexture(sdlTexture, NULL, (void **)&texPixels, &texPitch);
 }
 
-void System_UnlockTexture()
+void System_UnlockTexture( void )
 {
     SDL_UnlockTexture(sdlTexture);
 }
 
-void System_AudioLock()
+void System_AudioLock( void )
 {
     SDL_LockAudioDevice(sdlAudio);
 }
 
-void System_AudioUnlock()
+void System_AudioUnlock( void )
 {
     SDL_UnlockAudioDevice(sdlAudio);
 }
@@ -52,27 +52,27 @@ void System_SetPixel(int point, int index)
     *(texPixels + point) = videoPalette[index];
 }
 
-void System_UpdateKeys()
+void System_UpdateKeys( void )
 {
     SDL_PumpEvents();
 }
 
-int System_IsKeyLeft()
+int System_IsKeyLeft( void )
 {
     return keyState[SDL_SCANCODE_LEFT];
 }
 
-int System_IsKeyRight()
+int System_IsKeyRight( void )
 {
     return keyState[SDL_SCANCODE_RIGHT];
 }
 
-int System_IsKeyJump()
+int System_IsKeyJump( void )
 {
     return keyState[SDL_SCANCODE_SPACE];
 }
 
-int System_Rnd()
+int System_Rnd( void )
 {
     return rand();
 }
@@ -89,7 +89,7 @@ void SdlCallback(void *unused, Uint8 *buffer, int length)
     Audio_Callback((short *)buffer, length / 2);
 }
 
-void System_VideoUpdate()
+void System_VideoUpdate( void )
 {
     SDL_RenderClear(sdlRenderer);
     SDL_SetRenderTarget(sdlRenderer, sdlTarget);
@@ -183,7 +183,7 @@ int System_PollKeys(int *key)
     return 1;
 }
 
-void System_Quit()
+void System_Quit( void )
 {
     SDL_CloseAudioDevice(sdlAudio);
 
@@ -195,7 +195,7 @@ void System_Quit()
     SDL_Quit();
 }
 
-void System_Init()
+void System_Init( void )
 {
     SDL_AudioSpec   want;
     SDL_DisplayMode mode;

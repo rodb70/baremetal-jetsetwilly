@@ -23,12 +23,20 @@ enum
 
 extern int  audioMusicPlaying;
 extern int  audioPanX;
-
+#ifndef NO_AUDIO
 void Audio_Init(void);
 void Audio_Music(int, int);
 void Audio_Play(int);
 void Audio_WillySfx(int, int);
 void Audio_Sfx(int);
 void Audio_ReduceMusicSpeed(void);
+#else
+#define Audio_Init(...)
+#define Audio_Music(...)
+#define Audio_Play(...)
+#define Audio_WillySfx(...)
+#define Audio_Sfx(...)
+#define Audio_ReduceMusicSpeed(...)
+#endif
 
 #endif

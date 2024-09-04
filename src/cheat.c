@@ -7,7 +7,7 @@ int         cheatPos = 0;
 int         cheatLevel[2];
 EVENT       Cheat_Responder = Cheat_Disabled;
 
-void Cheat_Enabled()
+void Cheat_Enabled( void )
 {
     int         level;
 

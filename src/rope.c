@@ -42,7 +42,7 @@ ROPE    ropeSeg[ROPE_SEGS];
 
 EVENT   Rope_Ticker, Rope_Drawer;
 
-void DoRopeDrawer()
+void DoRopeDrawer( void )
 {
     int seg;
 
@@ -52,7 +52,7 @@ void DoRopeDrawer()
     }
 }
 
-int Rope_Animate()
+int Rope_Animate( void )
 {
     int     x, y, seg, frame, hit = 0;
     ROPE    *rope = &ropeSeg[0];
@@ -104,7 +104,7 @@ int Rope_Animate()
     return hit;
 }
 
-void DoRopeTicker()
+void DoRopeTicker( void )
 {
     int seg, x;
 
@@ -167,7 +167,7 @@ void DoRopeTicker()
     minerWilly.align = YALIGN(minerWilly.y);
 }
 
-void Rope_Init()
+void Rope_Init( void )
 {
     ropeDir = 0;
     ropeFrame = 34;

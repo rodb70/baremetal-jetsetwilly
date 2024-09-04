@@ -13,12 +13,12 @@ int     loaderTicks = 0;
 char    loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";
 int     loaderFlash = 0;
 
-void DoLoaderResponder()
+void DoLoaderResponder( void )
 {
     Action = NEXT_ACTION;
 }
 
-void DoLoaderTicker()
+void DoLoaderTicker( void )
 {
     BYTE    swap;
 
@@ -36,12 +36,12 @@ void DoLoaderTicker()
     }
 }
 
-void DoLoaderDrawer3()
+void DoLoaderDrawer3( void )
 {
     Video_WriteLarge(6 * 8, 11 * 8, loaderText);
 }
 
-void DoLoaderDrawer2()
+void DoLoaderDrawer2( void )
 {
     if (audioMusicPlaying)
     {
@@ -59,7 +59,7 @@ void DoLoaderDrawer2()
     Drawer = DoLoaderDrawer3;
 }
 
-void DoLoaderDrawer1()
+void DoLoaderDrawer1( void )
 {
     System_Border(0x1);
     Video_PixelPaperFill(0, WIDTH * HEIGHT, 0x1);
@@ -71,7 +71,7 @@ void DoLoaderDrawer1()
     Drawer = DoLoaderDrawer2;
 }
 
-void Loader_Action()
+void Loader_Action( void )
 {
     Drawer = DoLoaderDrawer1;
 

@@ -139,7 +139,7 @@ int IsSolid(int tile)
     return 0;
 }
 
-void MoveLeftRight()
+void MoveLeftRight( void )
 {
     int y = 0, offset = 0;
 
@@ -300,7 +300,7 @@ void UpdateDir(int conveyDir)
     }
 }
 
-void DoMinerTicker()
+void DoMinerTicker( void )
 {
     int tile, type[2], y;
     int conveyDir = C_NONE;
@@ -437,7 +437,7 @@ void DoMinerTicker()
     }
 }
 
-void Miner_Ticker()
+void Miner_Ticker( void )
 {
     int tile, offset = 0, align;
     int i, type;
@@ -480,12 +480,12 @@ void Miner_Ticker()
     }
 }
 
-void Miner_Drawer()
+void Miner_Drawer( void )
 {
     Video_DrawMiner(minerWilly.dy << 8 | minerWilly.x, minerFrame[minerWilly.frame], minerAttrSplit);
 }
 
-void Miner_Init()
+void Miner_Init( void )
 {
     minerWilly.x = 20 * 8;
     minerWilly.dy = minerWilly.y = 13 * 8;

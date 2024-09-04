@@ -195,15 +195,15 @@ int     samplesSfx = 0;
 TIMER   timerSfx, timerMusic;
 CHANNEL *curChannel;
 SFX     *curSfx;
-
-void Audio_ReduceMusicSpeed()
+#ifndef NO_AUDIO
+void Audio_ReduceMusicSpeed( void )
 {
     musicPitch--; // down one semitone
     musicTempo -= 6;
     Timer_Set(&timerMusic, SAMPLERATE, musicTempo);
 }
 
-void DoPhase()
+void DoPhase( void )
 {
     UINT    phase = curChannel->phase >> 31;
 
@@ -213,7 +213,7 @@ void DoPhase()
     curChannel->phase += curChannel->frequency;
 }
 
-void DoChannelOff()
+void DoChannelOff( void )
 {
     curChannel->DoPhase = DoNothing;
     curChannel->left[2] = 0;
@@ -236,13 +236,13 @@ void ChannelPan(CHANNEL *channel, int pan)
     ChannelStereo(channel, panTable[L][pan], panTable[R][pan]);
 }
 
-void DoSfxOff()
+void DoSfxOff( void )
 {
     curSfx->DoSfx = DoNothing;
     curSfx->channel->DoPhase = DoChannelOff;
 }
 
-void DoSfxOn()
+void DoSfxOn( void )
 {
     curSfx->channel->DoPhase = DoPhase;
     curSfx->DoSfx = curSfx->DoPlay;
@@ -250,7 +250,7 @@ void DoSfxOn()
     curSfx->DoSfx();
 }
 
-void DoSfxPlay()
+void DoSfxPlay( void )
 {
     curSfx->channel->frequency = frequencyTable[*curSfx->pitch];
     curSfx->clock += curSfx->length;
@@ -264,7 +264,7 @@ void DoSfxPlay()
     curSfx->DoSfx = DoSfxOff;
 }
 
-void DoSfxWilly()
+void DoSfxWilly( void )
 {
     curSfx->channel->DoPhase = DoPhase;
     curSfx->clock += curSfx->length;
@@ -332,7 +332,7 @@ void Audio_Sfx(int sfx)
     curSfx->clock = sfxClock;
 }
 
-void MusicReset()
+void MusicReset( void )
 {
     int index;
 
@@ -460,7 +460,8 @@ void Audio_Music(int music, int playing)
     System_AudioUnlock();
 }
 
-void Audio_Init()
+void Audio_Init( void )
 {
     Timer_Set(&timerSfx, SAMPLERATE, TICKRATE);
 }
+#endif

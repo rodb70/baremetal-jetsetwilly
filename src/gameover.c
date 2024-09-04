@@ -12,7 +12,7 @@ int     bootTicks;
 char    textGame[18] = "\x1\x0\x2\x0" "G " "\x2\x0" "a " "\x2\x0" "m " "\x2\x0" "e";
 char    textOver[18] = "\x1\x0\x2\x0" "O " "\x2\x0" "v " "\x2\x0" "e " "\x2\x0" "r";
 
-void Gameover_Drawer()
+void Gameover_Drawer( void )
 {
     if (bootTicks <= 96)
     {
@@ -29,7 +29,7 @@ void Gameover_Drawer()
     Video_WriteLarge(18 * 8, 6 * 8, textOver);
 }
 
-void Gameover_Ticker()
+void Gameover_Ticker( void )
 {
     int c = bootTicks >> 2;
 
@@ -52,7 +52,7 @@ void Gameover_Ticker()
     Action = Title_Action;
 }
 
-void Gameover_Init()
+void Gameover_Init( void )
 {
     System_Border(0x0);
     Video_PixelFill(0, 128 * WIDTH);
@@ -66,7 +66,7 @@ void Gameover_Init()
     Ticker = Gameover_Ticker;
 }
 
-void Gameover_Action()
+void Gameover_Action( void )
 {
     Responder = DoNothing;
     Ticker = Gameover_Init;

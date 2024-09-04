@@ -2,8 +2,9 @@
 #include "game.h"
 #include "video.h"
 #include "audio.h"
+#include "binary.h"
 
-#define NOROBOT     {0, 0, 0, DoNothing, DoNothing, 0, 0, 0x0, 0, 0, 0b000}
+#define NOROBOT     {0, 0, 0, DoNothing, DoNothing, 0, 0, 0x0, 0, 0, _b0000}
 
 #define POS(x, y)   (y * WIDTH + x * 8)
 
@@ -293,395 +294,395 @@ WORD    robotGfx[45][8][16] =
     }
 };
 
-void DoMoveLeft();
-void DoMoveRight();
-void DoMoveUp();
-void DoMoveDown();
-void DoMoveArrowLeft();
-void DoMoveArrowRight();
-void DoMoveStatic();
-void DoMoveMaria();
-void DoDrawRobot();
-void DoDrawArrow();
-void DoDrawToilet();
+void DoMoveLeft( void );
+void DoMoveRight( void );
+void DoMoveUp( void );
+void DoMoveDown( void );
+void DoMoveArrowLeft( void );
+void DoMoveArrowRight( void );
+void DoMoveStatic( void );
+void DoMoveMaria( void );
+void DoDrawRobot( void );
+void DoDrawArrow( void );
+void DoDrawToilet( void );
 
 ROBOT   robotStart[][8] =
 {
     {
-        {POS(10, 48), POS(10, 8), POS(10, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[36], 0x5, 2, 0, 0b011},
-        {POS(29, 56), POS(19, 56), POS(29, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x4, 2, 0, 0b011},
-        {POS(7, 56), POS(7, 0), POS(7, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x2, 2, 0, 0b010},
+        {POS(10, 48), POS(10, 8), POS(10, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[36], 0x5, 2, 0, _b011},
+        {POS(29, 56), POS(19, 56), POS(29, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x4, 2, 0, _b011},
+        {POS(7, 56), POS(7, 0), POS(7, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x2, 2, 0, _b010},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(8, 80), POS(0, 80), POS(10, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, 0b111},
-        {POS(20, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 4, 0b111},
-        {POS(12, 24), POS(12, 0), POS(12, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[26], 0x4, 2, 0, 0b011},
+        {POS(8, 80), POS(0, 80), POS(10, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, _b111},
+        {POS(20, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 4, _b111},
+        {POS(12, 24), POS(12, 0), POS(12, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[26], 0x4, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 104), POS(0, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[24], 0x6, 0, 0, 0b111},
-        {POS(14, 72), POS(14, 48), POS(14, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, 0b010},
-        {POS(27, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, 0b111},
+        {POS(16, 104), POS(0, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[24], 0x6, 0, 0, _b111},
+        {POS(14, 72), POS(14, 48), POS(14, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, _b010},
+        {POS(27, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(2, 32), POS(2, 32), POS(2, 88), DoMoveDown, DoDrawRobot, 5, robotGfx[37], 0x5, 0, 0, 0b001},
-        {POS(5, 50), POS(5, 16), POS(5, 80), DoMoveUp, DoDrawRobot, 6, robotGfx[37], 0x5, 0, 0, 0b011},
-        {POS(8, 64), POS(8, 19), POS(8, 88), DoMoveDown, DoDrawRobot, 3, robotGfx[37], 0x2, 0, 0, 0b011},
-        {POS(9, 104), POS(4, 104), POS(14, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, 0b111},
+        {POS(2, 32), POS(2, 32), POS(2, 88), DoMoveDown, DoDrawRobot, 5, robotGfx[37], 0x5, 0, 0, _b001},
+        {POS(5, 50), POS(5, 16), POS(5, 80), DoMoveUp, DoDrawRobot, 6, robotGfx[37], 0x5, 0, 0, _b011},
+        {POS(8, 64), POS(8, 19), POS(8, 88), DoMoveDown, DoDrawRobot, 3, robotGfx[37], 0x2, 0, 0, _b011},
+        {POS(9, 104), POS(4, 104), POS(14, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(18, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 4, 0b111},
-        {POS(21, 88), POS(16, 88), POS(29, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 4, 0b111},
-        {POS(8, 64), POS(5, 64), POS(29, 64), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 4, 0b111},
-        {POS(20, 40), POS(0, 40), POS(10, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 4, 0b111},
-        {POS(15, 104), POS(10, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 0, 0b011},
+        {POS(18, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 4, _b111},
+        {POS(21, 88), POS(16, 88), POS(29, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 4, _b111},
+        {POS(8, 64), POS(5, 64), POS(29, 64), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 4, _b111},
+        {POS(20, 40), POS(0, 40), POS(10, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 4, _b111},
+        {POS(15, 104), POS(10, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(14, 64), POS(14, 40), POS(14, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, 0b001},
-        {POS(11, 80), POS(11, 44), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, 0b001},
-        {POS(23, 80), POS(23, 44), POS(23, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, 0b001},
-        {POS(17, 48), POS(17, 48), POS(17, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, 0b001},
+        {POS(14, 64), POS(14, 40), POS(14, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, _b001},
+        {POS(11, 80), POS(11, 44), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, _b001},
+        {POS(23, 80), POS(23, 44), POS(23, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, _b001},
+        {POS(17, 48), POS(17, 48), POS(17, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(2, 48), POS(2, 0), POS(2, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, 0b000},
-        {POS(4, 48), POS(4, 0), POS(4, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, 0b000},
-        {POS(3, 64), POS(3, 16), POS(3, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, 0b001},
+        {POS(2, 48), POS(2, 0), POS(2, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, _b000},
+        {POS(4, 48), POS(4, 0), POS(4, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, _b000},
+        {POS(3, 64), POS(3, 16), POS(3, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 64), POS(12, 64), POS(18, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 0, 0b011},
-        {POS(5, 88), POS(0, 88), POS(11, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 4, 0b111},
-        {POS(0, 82), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(16, 64), POS(12, 64), POS(18, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 0, _b011},
+        {POS(5, 88), POS(0, 88), POS(11, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 4, _b111},
+        {POS(0, 82), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(2, 80), POS(2, 64), POS(2, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, 0b001},
-        {POS(5, 80), POS(5, 64), POS(5, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, 0b001},
-        {POS(8, 80), POS(8, 64), POS(8, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, 0b001},
-        {POS(6, 40), POS(0, 40), POS(10, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 4, 0b111},
-        {POS(12, 32), POS(12, 0), POS(12, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x2, 2, 0, 0b010},
-        {POS(27, 88), POS(16, 88), POS(29, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 4, 0b111},
-        {POS(19, 24), POS(17, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[32], 0x6, 0, 0, 0b011},
+        {POS(2, 80), POS(2, 64), POS(2, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, _b001},
+        {POS(5, 80), POS(5, 64), POS(5, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, _b001},
+        {POS(8, 80), POS(8, 64), POS(8, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, _b001},
+        {POS(6, 40), POS(0, 40), POS(10, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 4, _b111},
+        {POS(12, 32), POS(12, 0), POS(12, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x2, 2, 0, _b010},
+        {POS(27, 88), POS(16, 88), POS(29, 88), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 4, _b111},
+        {POS(19, 24), POS(17, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[32], 0x6, 0, 0, _b011},
         NOROBOT
     },
     {
-        {POS(30, 80), POS(30, 64), POS(30, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, 0b001},
-        {POS(7, 72), POS(7, 64), POS(7, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, 0b011},
-        {POS(19, 40), POS(16, 40), POS(30, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[5], 0x6, 0, 4, 0b011},
-        {POS(14, 48), POS(14, 0), POS(14, 56), DoMoveDown, DoDrawRobot, 1, robotGfx[25], 0x5, 0, 0, 0b011},
-        {POS(0, 34), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(30, 80), POS(30, 64), POS(30, 112), DoMoveDown, DoDrawRobot, 2, robotGfx[37], 0x3, 0, 0, _b001},
+        {POS(7, 72), POS(7, 64), POS(7, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, _b011},
+        {POS(19, 40), POS(16, 40), POS(30, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[5], 0x6, 0, 4, _b011},
+        {POS(14, 48), POS(14, 0), POS(14, 56), DoMoveDown, DoDrawRobot, 1, robotGfx[25], 0x5, 0, 0, _b011},
+        {POS(0, 34), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT
     },
     {
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(10, 48), 0, 0, DoMoveStatic, DoDrawRobot, 0, robotGfx[14], 0x6, 0, 0, 0b001},
-        {POS(19, 24), POS(5, 24), POS(30, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 4, 0b111},
-        {POS(19, 80), POS(9, 80), POS(17, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 4, 0b111},
-        {POS(0, 34), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
-        {POS(0, 11), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(10, 48), 0, 0, DoMoveStatic, DoDrawRobot, 0, robotGfx[14], 0x6, 0, 0, _b001},
+        {POS(19, 24), POS(5, 24), POS(30, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 4, _b111},
+        {POS(19, 80), POS(9, 80), POS(17, 80), DoMoveRight, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 4, _b111},
+        {POS(0, 34), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
+        {POS(0, 11), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(7, 40), POS(0, 40), POS(10, 40), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 0, 0b111},
-        {POS(8, 80), POS(0, 80), POS(19, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[32], 0x6, 0, 0, 0b011},
-        {POS(24, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, 0b111},
-        {POS(0, 66), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
+        {POS(7, 40), POS(0, 40), POS(10, 40), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x5, 0, 0, _b111},
+        {POS(8, 80), POS(0, 80), POS(19, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[32], 0x6, 0, 0, _b011},
+        {POS(24, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, _b111},
+        {POS(0, 66), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(12, 88), POS(12, 0), POS(12, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[27], 0x5, 2, 0, 0b010},
-        {POS(19, 56), POS(14, 56), POS(23, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 0, 0b111},
-        {POS(20, 80), POS(19, 80), POS(30, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x6, 0, 0, 0b111},
+        {POS(12, 88), POS(12, 0), POS(12, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[27], 0x5, 2, 0, _b010},
+        {POS(19, 56), POS(14, 56), POS(23, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x3, 0, 0, _b111},
+        {POS(20, 80), POS(19, 80), POS(30, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x6, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 48), POS(4, 48), POS(4, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[39], 0x6, 2, 0, 0b001},
-        {POS(12, 64), POS(12, 40), POS(12, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[39], 0x4, 0, 0, 0b001},
-        {POS(5, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, 0b111},
-        {POS(24, 8), POS(24, 0), POS(24, 16), DoMoveDown, DoDrawRobot, 2, robotGfx[13], 0x7, 2, 0, 0b001},
+        {POS(4, 48), POS(4, 48), POS(4, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[39], 0x6, 2, 0, _b001},
+        {POS(12, 64), POS(12, 40), POS(12, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[39], 0x4, 0, 0, _b001},
+        {POS(5, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, _b111},
+        {POS(24, 8), POS(24, 0), POS(24, 16), DoMoveDown, DoDrawRobot, 2, robotGfx[13], 0x7, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(5, 48), POS(5, 48), POS(5, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, 0b001},
-        {POS(11, 80), POS(11, 44), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, 0b001},
-        {POS(19, 32), POS(19, 32), POS(19, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[38], 0x5, 0, 0, 0b001},
-        {POS(25, 64), POS(25, 40), POS(25, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, 0b001},
-        {POS(6, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, 0b111},
-        {POS(0, 50), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
-        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(5, 48), POS(5, 48), POS(5, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, _b001},
+        {POS(11, 80), POS(11, 44), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, _b001},
+        {POS(19, 32), POS(19, 32), POS(19, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[38], 0x5, 0, 0, _b001},
+        {POS(25, 64), POS(25, 40), POS(25, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, _b001},
+        {POS(6, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, _b111},
+        {POS(0, 50), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
+        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT
     },
     {
-        {POS(8, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, 0b111},
-        {POS(0, 66), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(8, 32), POS(0, 32), POS(9, 32), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x4, 0, 0, _b111},
+        {POS(0, 66), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(5, 64), POS(5, 40), POS(5, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, 0b001},
-        {POS(11, 80), POS(11, 40), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, 0b001},
-        {POS(19, 48), POS(19, 48), POS(19, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, 0b001},
-        {POS(25, 32), POS(25, 32), POS(25, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[38], 0x5, 0, 0, 0b001},
-        {POS(0, 66), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
+        {POS(5, 64), POS(5, 40), POS(5, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[38], 0x4, 0, 0, _b001},
+        {POS(11, 80), POS(11, 40), POS(11, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[38], 0x2, 0, 0, _b001},
+        {POS(19, 48), POS(19, 48), POS(19, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[38], 0x6, 2, 0, _b001},
+        {POS(25, 32), POS(25, 32), POS(25, 96), DoMoveDown, DoDrawRobot, 6, robotGfx[38], 0x5, 0, 0, _b001},
+        {POS(0, 66), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(22, 104), POS(14, 104), POS(24, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[24], 0x5, 0, 4, 0b111},
+        {POS(22, 104), POS(14, 104), POS(24, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[24], 0x5, 0, 4, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(8, 40), POS(4, 40), POS(20, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 4, 0b111},
-        {POS(16, 40), POS(12, 40), POS(28, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, 0b111},
-        {POS(11, 72), POS(9, 72), POS(20, 72), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x2, 0, 1, 0b111},
-        {POS(24, 72), POS(22, 72), POS(27, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x7, 0, 4, 0b111},
-        {POS(7, 104), POS(5, 104), POS(12, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 1, 0b111},
-        {POS(12, 104), POS(11, 104), POS(18, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x1, 0, 2, 0b111},
-        {POS(18, 104), POS(16, 104), POS(23, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 3, 0b111},
-        {POS(24, 104), POS(23, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x2, 0, 0, 0b111}
+        {POS(8, 40), POS(4, 40), POS(20, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 4, _b111},
+        {POS(16, 40), POS(12, 40), POS(28, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, _b111},
+        {POS(11, 72), POS(9, 72), POS(20, 72), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x2, 0, 1, _b111},
+        {POS(24, 72), POS(22, 72), POS(27, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x7, 0, 4, _b111},
+        {POS(7, 104), POS(5, 104), POS(12, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 1, _b111},
+        {POS(12, 104), POS(11, 104), POS(18, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x1, 0, 2, _b111},
+        {POS(18, 104), POS(16, 104), POS(23, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 3, _b111},
+        {POS(24, 104), POS(23, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x2, 0, 0, _b111}
     },
     {
-        {POS(12, 16), POS(12, 16), POS(12, 48), DoMoveDown, DoDrawRobot, 1, robotGfx[40], 0x2, 0, 0, 0b000},
-        {POS(5, 72), POS(5, 48), POS(5, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, 0b010},
-        {POS(7, 56), POS(7, 48), POS(7, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, 0b010},
-        {POS(11, 75), POS(11, 72), POS(11, 96), DoMoveDown, DoDrawRobot, 1, robotGfx[27], 0x6, 2, 0, 0b011},
-        {POS(24, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 2, robotGfx[33], 0x3, 0, 4, 0b111},
+        {POS(12, 16), POS(12, 16), POS(12, 48), DoMoveDown, DoDrawRobot, 1, robotGfx[40], 0x2, 0, 0, _b000},
+        {POS(5, 72), POS(5, 48), POS(5, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, _b010},
+        {POS(7, 56), POS(7, 48), POS(7, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, _b010},
+        {POS(11, 75), POS(11, 72), POS(11, 96), DoMoveDown, DoDrawRobot, 1, robotGfx[27], 0x6, 2, 0, _b011},
+        {POS(24, 80), POS(14, 80), POS(29, 80), DoMoveRight, DoDrawRobot, 2, robotGfx[33], 0x3, 0, 4, _b111},
         NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(24, 88), POS(16, 88), POS(26, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[24], 0x3, 0, 0, 0b111},
-        {POS(14, 56), POS(14, 48), POS(14, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, 0b010},
-        {POS(6, 72), POS(6, 48), POS(6, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, 0b010},
+        {POS(24, 88), POS(16, 88), POS(26, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[24], 0x3, 0, 0, _b111},
+        {POS(14, 56), POS(14, 48), POS(14, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, _b010},
+        {POS(6, 72), POS(6, 48), POS(6, 87), DoMoveUp, DoDrawRobot, 3, robotGfx[27], 0x3, 2, 0, _b010},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 24), POS(0, 24), POS(11, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[7], 0x3, 0, 4, 0b011},
-        {POS(16, 24), POS(13, 24), POS(21, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x6, 0, 0, 0b011},
-        {POS(22, 48), POS(12, 48), POS(24, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[23], 0x7, 0, 0, 0b011},
-        {POS(4, 72), POS(2, 72), POS(6, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[25], 0x2, 0, 4, 0b011},
-        {POS(22, 96), POS(0, 96), POS(30, 96), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x4, 0, 0, 0b011},
-        {POS(11, 80), POS(9, 80), POS(17, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
+        {POS(4, 24), POS(0, 24), POS(11, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[7], 0x3, 0, 4, _b011},
+        {POS(16, 24), POS(13, 24), POS(21, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x6, 0, 0, _b011},
+        {POS(22, 48), POS(12, 48), POS(24, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[23], 0x7, 0, 0, _b011},
+        {POS(4, 72), POS(2, 72), POS(6, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[25], 0x2, 0, 4, _b011},
+        {POS(22, 96), POS(0, 96), POS(30, 96), DoMoveLeft, DoDrawRobot, 0, robotGfx[10], 0x4, 0, 0, _b011},
+        {POS(11, 80), POS(9, 80), POS(17, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
         NOROBOT, NOROBOT
     },
     {
-        {POS(3, 32), POS(3, 8), POS(3, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, 0b001},
-        {POS(9, 96), POS(9, 0), POS(9, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, 0b001},
-        {POS(15, 64), POS(15, 0), POS(15, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[21], 0x4, 2, 0, 0b001},
-        {POS(20, 32), POS(20, 8), POS(20, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, 0b001},
+        {POS(3, 32), POS(3, 8), POS(3, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, _b001},
+        {POS(9, 96), POS(9, 0), POS(9, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, _b001},
+        {POS(15, 64), POS(15, 0), POS(15, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[21], 0x4, 2, 0, _b001},
+        {POS(20, 32), POS(20, 8), POS(20, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(9, 96), POS(9, 0), POS(9, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, 0b001},
-        {POS(14, 64), POS(14, 0), POS(14, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[21], 0x4, 2, 0, 0b001},
-        {POS(20, 96), POS(20, 0), POS(20, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, 0b001},
-        {POS(27, 32), POS(27, 8), POS(27, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, 0b001},
+        {POS(9, 96), POS(9, 0), POS(9, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, _b001},
+        {POS(14, 64), POS(14, 0), POS(14, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[21], 0x4, 2, 0, _b001},
+        {POS(20, 96), POS(20, 0), POS(20, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[21], 0x6, 2, 0, _b001},
+        {POS(27, 32), POS(27, 8), POS(27, 104), DoMoveDown, DoDrawRobot, 3, robotGfx[21], 0x3, 0, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 104), POS(0, 104), POS(24, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[34], 0x6, 0, 0, 0b111},
-        {POS(4, 72), POS(0, 72), POS(5, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x7, 0, 4, 0b011},
-        {POS(3, 48), POS(0, 48), POS(6, 48), DoMoveRight, DoDrawRobot, 0, robotGfx[34], 0x4, 0, 4, 0b111},
-        {POS(8, 24), POS(0, 24), POS(9, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x3, 0, 4, 0b011},
+        {POS(16, 104), POS(0, 104), POS(24, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[34], 0x6, 0, 0, _b111},
+        {POS(4, 72), POS(0, 72), POS(5, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x7, 0, 4, _b011},
+        {POS(3, 48), POS(0, 48), POS(6, 48), DoMoveRight, DoDrawRobot, 0, robotGfx[34], 0x4, 0, 4, _b111},
+        {POS(8, 24), POS(0, 24), POS(9, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x3, 0, 4, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(3, 72), POS(3, 0), POS(3, 96), DoMoveUp, DoDrawRobot, 2, robotGfx[3], 0x2, 0, 0, 0b011},
-        {POS(7, 88), POS(7, 0), POS(7, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[27], 0x5, 2, 0, 0b010},
+        {POS(3, 72), POS(3, 0), POS(3, 96), DoMoveUp, DoDrawRobot, 2, robotGfx[3], 0x2, 0, 0, _b011},
+        {POS(7, 88), POS(7, 0), POS(7, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[27], 0x5, 2, 0, _b010},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(25, 48), POS(25, 0), POS(25, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, 0b000},
-        {POS(27, 48), POS(27, 0), POS(27, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, 0b000},
-        {POS(26, 64), POS(26, 16), POS(26, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, 0b001},
-        {POS(12, 96), POS(0, 96), POS(15, 96), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x3, 0, 0, 0b111},
-        {POS(6, 64), POS(6, 56), POS(6, 80), DoMoveUp, DoDrawRobot, 1, robotGfx[3], 0x4, 2, 0, 0b011},
-        {POS(17, 76), POS(17, 40), POS(17, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[2], 0x5, 2, 0, 0b011},
+        {POS(25, 48), POS(25, 0), POS(25, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, _b000},
+        {POS(27, 48), POS(27, 0), POS(27, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, _b000},
+        {POS(26, 64), POS(26, 16), POS(26, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, _b001},
+        {POS(12, 96), POS(0, 96), POS(15, 96), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x3, 0, 0, _b111},
+        {POS(6, 64), POS(6, 56), POS(6, 80), DoMoveUp, DoDrawRobot, 1, robotGfx[3], 0x4, 2, 0, _b011},
+        {POS(17, 76), POS(17, 40), POS(17, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[2], 0x5, 2, 0, _b011},
         NOROBOT, NOROBOT
     },
     {
-        {POS(25, 96), POS(24, 96), POS(30, 96), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, 0b111},
+        {POS(25, 96), POS(24, 96), POS(30, 96), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(8, 32), POS(8, 0), POS(8, 88), DoMoveUp, DoDrawRobot, 2, robotGfx[41], 0x5, 2, 0, 0b011},
-        {POS(11, 16), POS(11, 0), POS(11, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[41], 0x3, 2, 0, 0b001},
-        {POS(14, 72), POS(14, 0), POS(14, 96), DoMoveDown, DoDrawRobot, 3, robotGfx[42], 0x6, 0, 0, 0b000},
-        {POS(17, 64), POS(17, 8), POS(17, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[41], 0x2, 2, 0, 0b011},
-        {POS(20, 32), POS(20, 0), POS(20, 80), DoMoveUp, DoDrawRobot, 2, robotGfx[41], 0x5, 2, 0, 0b011},
-        {POS(23, 16), POS(23, 0), POS(23, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[41], 0x3, 2, 0, 0b001},
-        {POS(28, 72), POS(28, 0), POS(28, 96), DoMoveDown, DoDrawRobot, 3, robotGfx[41], 0x6, 0, 0, 0b000},
+        {POS(8, 32), POS(8, 0), POS(8, 88), DoMoveUp, DoDrawRobot, 2, robotGfx[41], 0x5, 2, 0, _b011},
+        {POS(11, 16), POS(11, 0), POS(11, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[41], 0x3, 2, 0, _b001},
+        {POS(14, 72), POS(14, 0), POS(14, 96), DoMoveDown, DoDrawRobot, 3, robotGfx[42], 0x6, 0, 0, _b000},
+        {POS(17, 64), POS(17, 8), POS(17, 104), DoMoveUp, DoDrawRobot, 4, robotGfx[41], 0x2, 2, 0, _b011},
+        {POS(20, 32), POS(20, 0), POS(20, 80), DoMoveUp, DoDrawRobot, 2, robotGfx[41], 0x5, 2, 0, _b011},
+        {POS(23, 16), POS(23, 0), POS(23, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[41], 0x3, 2, 0, _b001},
+        {POS(28, 72), POS(28, 0), POS(28, 96), DoMoveDown, DoDrawRobot, 3, robotGfx[41], 0x6, 0, 0, _b000},
         NOROBOT
     },
     {
-        {POS(10, 64), POS(10, 56), POS(10, 80), DoMoveUp, DoDrawRobot, 1, robotGfx[4], 0x4, 2, 0, 0b011},
-        {POS(13, 48), POS(13, 40), POS(13, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[2], 0x3, 0, 0, 0b011},
-        {POS(16, 76), POS(16, 40), POS(16, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[1], 0x5, 2, 0, 0b011},
-        {POS(22, 80), POS(19, 80), POS(30, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x6, 0, 0, 0b111},
+        {POS(10, 64), POS(10, 56), POS(10, 80), DoMoveUp, DoDrawRobot, 1, robotGfx[4], 0x4, 2, 0, _b011},
+        {POS(13, 48), POS(13, 40), POS(13, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[2], 0x3, 0, 0, _b011},
+        {POS(16, 76), POS(16, 40), POS(16, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[1], 0x5, 2, 0, _b011},
+        {POS(22, 80), POS(19, 80), POS(30, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x6, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(12, 104), POS(5, 104), POS(12, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 1, 0b111},
+        {POS(12, 104), POS(5, 104), POS(12, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 1, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 48), POS(2, 48), POS(7, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x6, 0, 0, 0b011},
+        {POS(4, 48), POS(2, 48), POS(7, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x6, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 24), POS(0, 24), POS(27, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[25], 0x4, 0, 0, 0b011},
-        {POS(28, 104), 0, 0, DoMoveStatic, DoDrawToilet, 0, robotGfx[0], 0xf, 2, 0, 0b001},
+        {POS(16, 24), POS(0, 24), POS(27, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[25], 0x4, 0, 0, _b011},
+        {POS(28, 104), 0, 0, DoMoveStatic, DoDrawToilet, 0, robotGfx[0], 0xf, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(6, 32), POS(6, 16), POS(6, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[6], 0x7, 2, 0, 0b011},
-        {POS(12, 16), POS(12, 16), POS(12, 48), DoMoveDown, DoDrawRobot, 1, robotGfx[40], 0x2, 0, 0, 0b000},
-        {POS(16, 104), POS(10, 104), POS(30, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[9], 0x5, 0, 4, 0b011},
+        {POS(6, 32), POS(6, 16), POS(6, 104), DoMoveDown, DoDrawRobot, 2, robotGfx[6], 0x7, 2, 0, _b011},
+        {POS(12, 16), POS(12, 16), POS(12, 48), DoMoveDown, DoDrawRobot, 1, robotGfx[40], 0x2, 0, 0, _b000},
+        {POS(16, 104), POS(10, 104), POS(30, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[9], 0x5, 0, 4, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(14, 88), 0, 0, DoMoveMaria, DoDrawRobot, 0, robotGfx[43], 0x7, 0, 0, 0b011},
-        {POS(14, 88), 0, 0, DoMoveMaria, DoDrawRobot, 0, robotGfx[44], 0x5, 0, 0, 0b011},
+        {POS(14, 88), 0, 0, DoMoveMaria, DoDrawRobot, 0, robotGfx[43], 0x7, 0, 0, _b011},
+        {POS(14, 88), 0, 0, DoMoveMaria, DoDrawRobot, 0, robotGfx[44], 0x5, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(2, 16), POS(0, 16), POS(10, 16), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
-        {POS(7, 48), POS(7, 40), POS(7, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[1], 0x3, 0, 0, 0b011},
-        {POS(0, 73), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
+        {POS(2, 16), POS(0, 16), POS(10, 16), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
+        {POS(7, 48), POS(7, 40), POS(7, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[1], 0x3, 0, 0, _b011},
+        {POS(0, 73), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(20, 32), POS(20, 0), POS(20, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[4], 0x5, 2, 0, 0b011},
-        {POS(9, 72), POS(9, 64), POS(9, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, 0b011},
-        {POS(0, 66), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(20, 32), POS(20, 0), POS(20, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[4], 0x5, 2, 0, _b011},
+        {POS(9, 72), POS(9, 64), POS(9, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, _b011},
+        {POS(0, 66), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 48), POS(4, 0), POS(4, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, 0b000},
-        {POS(6, 48), POS(6, 0), POS(6, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, 0b000},
-        {POS(5, 64), POS(5, 16), POS(5, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, 0b001},
-        {POS(22, 80), POS(8, 80), POS(24, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, 0b111},
+        {POS(4, 48), POS(4, 0), POS(4, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[28], 0x4, 0, 0, _b000},
+        {POS(6, 48), POS(6, 0), POS(6, 88), DoMoveDown, DoDrawRobot, 1, robotGfx[29], 0x4, 0, 0, _b000},
+        {POS(5, 64), POS(5, 16), POS(5, 104), DoMoveDown, DoDrawRobot, 1, robotGfx[30], 0x4, 2, 0, _b001},
+        {POS(22, 80), POS(8, 80), POS(24, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(8, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, 0b111},
+        {POS(8, 24), POS(5, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[20], 0x2, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(18, 72), POS(18, 64), POS(18, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, 0b011},
-        {POS(10, 96), POS(10, 56), POS(10, 96), DoMoveUp, DoDrawRobot, 5, robotGfx[37], 0x6, 2, 0, 0b011},
+        {POS(18, 72), POS(18, 64), POS(18, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[17], 0x2, 2, 0, _b011},
+        {POS(10, 96), POS(10, 56), POS(10, 96), DoMoveUp, DoDrawRobot, 5, robotGfx[37], 0x6, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 66), POS(4, 56), POS(4, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x3, 0, 0, 0b001},
-        {POS(6, 70), POS(6, 56), POS(6, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x6, 0, 0, 0b001},
-        {POS(8, 74), POS(8, 56), POS(8, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x1, 0, 0, 0b001},
-        {POS(10, 78), POS(10, 56), POS(10, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x4, 0, 0, 0b001},
-        {POS(12, 82), POS(12, 56), POS(12, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x2, 0, 0, 0b001},
-        {POS(14, 86), POS(14, 56), POS(14, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[12], 0x5, 0, 0, 0b001},
-        {POS(0, 41), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, 0b000},
-        {POS(0, 73), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000}
+        {POS(4, 66), POS(4, 56), POS(4, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x3, 0, 0, _b001},
+        {POS(6, 70), POS(6, 56), POS(6, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x6, 0, 0, _b001},
+        {POS(8, 74), POS(8, 56), POS(8, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x1, 0, 0, _b001},
+        {POS(10, 78), POS(10, 56), POS(10, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x4, 0, 0, _b001},
+        {POS(12, 82), POS(12, 56), POS(12, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[11], 0x2, 0, 0, _b001},
+        {POS(14, 86), POS(14, 56), POS(14, 88), DoMoveDown, DoDrawRobot, 2, robotGfx[12], 0x5, 0, 0, _b001},
+        {POS(0, 41), 28 * 8, 28, DoMoveArrowLeft, DoDrawArrow, 1, 0, 0x0, 0, 0, _b000},
+        {POS(0, 73), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000}
     },
     {
-        {POS(4, 72), POS(0, 72), POS(5, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x7, 0, 4, 0b011},
-        {POS(16, 64), POS(12, 64), POS(18, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[9], 0x5, 0, 0, 0b011},
-        {POS(0, 97), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(4, 72), POS(0, 72), POS(5, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[31], 0x7, 0, 4, _b011},
+        {POS(16, 64), POS(12, 64), POS(18, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[9], 0x5, 0, 0, _b011},
+        {POS(0, 97), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(20, 88), POS(17, 88), POS(30, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x2, 0, 0, 0b011},
-        {POS(24, 40), POS(16, 40), POS(30, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[5], 0x6, 0, 4, 0b011},
+        {POS(20, 88), POS(17, 88), POS(30, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x2, 0, 0, _b011},
+        {POS(24, 40), POS(16, 40), POS(30, 40), DoMoveRight, DoDrawRobot, 0, robotGfx[5], 0x6, 0, 4, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(20, 24), POS(20, 0), POS(20, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[16], 0x5, 2, 0, 0b011},
+        {POS(20, 24), POS(20, 0), POS(20, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[16], 0x5, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 88), POS(12, 88), POS(29, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
-        {POS(18, 24), POS(18, 0), POS(18, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, 0b011},
-        {POS(22, 64), POS(21, 64), POS(30, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[8], 0x3, 0, 0, 0b011},
+        {POS(16, 88), POS(12, 88), POS(29, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
+        {POS(18, 24), POS(18, 0), POS(18, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, _b011},
+        {POS(22, 64), POS(21, 64), POS(30, 64), DoMoveLeft, DoDrawRobot, 0, robotGfx[8], 0x3, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(4, 32), POS(4, 0), POS(4, 64), DoMoveUp, DoDrawRobot, 2, robotGfx[6], 0x5, 2, 0, 0b011},
-        {POS(13, 56), POS(13, 48), POS(13, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, 0b010},
-        {POS(19, 72), POS(15, 72), POS(23, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[24], 0x2, 0, 4, 0b111},
-        {POS(25, 72), POS(25, 32), POS(25, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[22], 0x3, 2, 0, 0b001},
+        {POS(4, 32), POS(4, 0), POS(4, 64), DoMoveUp, DoDrawRobot, 2, robotGfx[6], 0x5, 2, 0, _b011},
+        {POS(13, 56), POS(13, 48), POS(13, 96), DoMoveDown, DoDrawRobot, 2, robotGfx[27], 0x5, 2, 0, _b010},
+        {POS(19, 72), POS(15, 72), POS(23, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[24], 0x2, 0, 4, _b111},
+        {POS(25, 72), POS(25, 32), POS(25, 80), DoMoveDown, DoDrawRobot, 2, robotGfx[22], 0x3, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(5, 16), POS(0, 16), POS(10, 16), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
-        {POS(20, 24), POS(18, 24), POS(22, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[35], 0x4, 0, 4, 0b011},
-        {POS(16, 24), POS(16, 0), POS(16, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, 0b011},
-        {POS(22, 96), POS(22, 56), POS(22, 96), DoMoveUp, DoDrawRobot, 5, robotGfx[37], 0x6, 2, 0, 0b011},
+        {POS(5, 16), POS(0, 16), POS(10, 16), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
+        {POS(20, 24), POS(18, 24), POS(22, 24), DoMoveRight, DoDrawRobot, 0, robotGfx[35], 0x4, 0, 4, _b011},
+        {POS(16, 24), POS(16, 0), POS(16, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, _b011},
+        {POS(22, 96), POS(22, 56), POS(22, 96), DoMoveUp, DoDrawRobot, 5, robotGfx[37], 0x6, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, 0b111},
-        {POS(25, 24), POS(0, 24), POS(27, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x3, 0, 0, 0b111},
-        {POS(9, 48), POS(4, 48), POS(27, 48), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, 0b111},
-        {POS(19, 72), POS(2, 72), POS(27, 72), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 0, 0b111},
+        {POS(16, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, _b111},
+        {POS(25, 24), POS(0, 24), POS(27, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x3, 0, 0, _b111},
+        {POS(9, 48), POS(4, 48), POS(27, 48), DoMoveRight, DoDrawRobot, 0, robotGfx[18], 0x6, 0, 4, _b111},
+        {POS(19, 72), POS(2, 72), POS(27, 72), DoMoveLeft, DoDrawRobot, 0, robotGfx[18], 0x4, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(17, 72), POS(11, 72), POS(18, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[32], 0x3, 0, 4, 0b011},
-        {POS(11, 56), POS(9, 56), POS(30, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
+        {POS(17, 72), POS(11, 72), POS(18, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[32], 0x3, 0, 4, _b011},
+        {POS(11, 56), POS(9, 56), POS(30, 56), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(16, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, 0b111},
-        {POS(9, 72), POS(7, 72), POS(20, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[9], 0x6, 0, 4, 0b011},
-        {POS(20, 48), POS(7, 48), POS(17, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[5], 0x4, 0, 0, 0b011},
+        {POS(16, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, _b111},
+        {POS(9, 72), POS(7, 72), POS(20, 72), DoMoveRight, DoDrawRobot, 0, robotGfx[9], 0x6, 0, 4, _b011},
+        {POS(20, 48), POS(7, 48), POS(17, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[5], 0x4, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(22, 104), POS(10, 104), POS(30, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 4, 0b011},
-        {POS(16, 48), POS(12, 48), POS(24, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[23], 0x7, 0, 0, 0b011},
-        {POS(3, 24), POS(3, 0), POS(3, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, 0b011},
+        {POS(22, 104), POS(10, 104), POS(30, 104), DoMoveRight, DoDrawRobot, 0, robotGfx[10], 0x5, 0, 4, _b011},
+        {POS(16, 48), POS(12, 48), POS(24, 48), DoMoveLeft, DoDrawRobot, 0, robotGfx[23], 0x7, 0, 0, _b011},
+        {POS(3, 24), POS(3, 0), POS(3, 64), DoMoveDown, DoDrawRobot, 2, robotGfx[17], 0x5, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(14, 32), POS(14, 0), POS(14, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[3], 0x5, 2, 0, 0b011},
-        {POS(4, 48), 0, 0, DoMoveStatic, DoDrawRobot, 0, robotGfx[14], 0x6, 0, 0, 0b001},
-        {POS(9, 80), POS(0, 80), POS(10, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, 0b111},
+        {POS(14, 32), POS(14, 0), POS(14, 96), DoMoveDown, DoDrawRobot, 4, robotGfx[3], 0x5, 2, 0, _b011},
+        {POS(4, 48), 0, 0, DoMoveStatic, DoDrawRobot, 0, robotGfx[14], 0x6, 0, 0, _b001},
+        {POS(9, 80), POS(0, 80), POS(10, 80), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x2, 0, 0, _b111},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(11, 32), POS(11, 0), POS(11, 64), DoMoveUp, DoDrawRobot, 2, robotGfx[6], 0x5, 2, 0, 0b011},
-        {POS(14, 24), POS(14, 0), POS(14, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[22], 0x2, 2, 0, 0b001},
+        {POS(11, 32), POS(11, 0), POS(11, 64), DoMoveUp, DoDrawRobot, 2, robotGfx[6], 0x5, 2, 0, _b011},
+        {POS(14, 24), POS(14, 0), POS(14, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[22], 0x2, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(19, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, 0b111},
-        {POS(20, 88), POS(12, 88), POS(29, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, 0b111},
-        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(19, 104), POS(7, 104), POS(22, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, _b111},
+        {POS(20, 88), POS(12, 88), POS(29, 88), DoMoveLeft, DoDrawRobot, 0, robotGfx[33], 0x6, 0, 0, _b111},
+        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(11, 50), POS(11, 16), POS(11, 80), DoMoveUp, DoDrawRobot, 6, robotGfx[37], 0x5, 0, 0, 0b011},
-        {POS(14, 24), POS(14, 0), POS(14, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[22], 0x2, 2, 0, 0b001},
+        {POS(11, 50), POS(11, 16), POS(11, 80), DoMoveUp, DoDrawRobot, 6, robotGfx[37], 0x5, 0, 0, _b011},
+        {POS(14, 24), POS(14, 0), POS(14, 80), DoMoveDown, DoDrawRobot, 1, robotGfx[22], 0x2, 2, 0, _b001},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, 0b000},
+        {POS(0, 42), 208 * 8, 208, DoMoveArrowRight, DoDrawArrow, 0, 0, 0x0, 0, 0, _b000},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(8, 104), POS(4, 104), POS(14, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, 0b111},
-        {POS(21, 72), POS(21, 64), POS(21, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[16], 0x2, 2, 0, 0b011},
+        {POS(8, 104), POS(4, 104), POS(14, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[19], 0x3, 0, 0, _b111},
+        {POS(21, 72), POS(21, 64), POS(21, 104), DoMoveUp, DoDrawRobot, 2, robotGfx[16], 0x2, 2, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     },
     {
-        {POS(23, 24), POS(23, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x6, 0, 0, 0b011},
-        {POS(20, 104), POS(17, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x3, 0, 0, 0b011},
+        {POS(23, 24), POS(23, 24), POS(30, 24), DoMoveLeft, DoDrawRobot, 0, robotGfx[35], 0x6, 0, 0, _b011},
+        {POS(20, 104), POS(17, 104), POS(30, 104), DoMoveLeft, DoDrawRobot, 0, robotGfx[7], 0x3, 0, 0, _b011},
         NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT, NOROBOT
     }
 };
@@ -696,7 +697,7 @@ void Robots_DrawCheat()
 
 void Robots_Flush()
 {
-    robotThis[1].fMask = 0b011;
+    robotThis[1].fMask = _b011;
     robotThis[1].fIndex = 2;
     robotThis[1].fUpdate = 0; // slow down the animation
 }

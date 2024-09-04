@@ -6,12 +6,12 @@
 
 int dieLevel;
 
-void Die_Drawer()
+void Die_Drawer( void )
 {
     Video_PixelInkFill(0, 128 * WIDTH, dieLevel >> 1);
 }
 
-void Die_Ticker()
+void Die_Ticker( void )
 {
     if (dieLevel-- > 0)
     {
@@ -33,7 +33,7 @@ void Die_Ticker()
     Action = Game_Action;
 }
 
-void Die_Init()
+void Die_Init( void )
 {
     gameLives--;
 

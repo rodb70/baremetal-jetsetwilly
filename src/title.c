@@ -28,7 +28,7 @@ BYTE    colourCycle;
 int     colourCycleAdj[6] = {1, 2, 3, 4, 5, 1};
 int     titleFlash = 0;
 
-void GameStart()
+void GameStart( void )
 {
     Video_PixelFill(128 * WIDTH, 64 * WIDTH);
 
@@ -52,7 +52,7 @@ void GameStart()
     Game_Action();
 }
 
-void DoTitleTicker()
+void DoTitleTicker( void )
 {
     char    swap;
 
@@ -87,7 +87,7 @@ void DoTitleTicker()
     Action = Title_Action;
 }
 
-void DoTitleDrawer()
+void DoTitleDrawer( void )
 {
     int tile, *pos = &titleJSW[0];
 
@@ -110,7 +110,7 @@ void DoTitleDrawer()
     Video_WriteLarge(-(textFrame & 6), 19 * 8, textTicker + textPos);
 }
 
-void DoTitleResponder()
+void DoTitleResponder( void )
 {
     if (gameInput == KEY_ENTER)
     {
@@ -122,7 +122,7 @@ void DoTitleResponder()
     }
 }
 
-void DoTitleInit()
+void DoTitleInit( void )
 {
     System_Border(0x0);
     Video_PixelFill(0, WIDTH * HEIGHT);
@@ -154,7 +154,7 @@ void DoTitleInit()
     Ticker = DoTitleTicker;
 }
 
-void Title_Action()
+void Title_Action( void )
 {
     Responder = DoTitleResponder;
     Ticker = DoTitleInit;

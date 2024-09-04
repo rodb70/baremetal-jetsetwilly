@@ -108,7 +108,7 @@ BYTE    lifeInk[] = {0x2, 0x4, 0x6, 0x1, 0x3, 0x5, 0x7};
 int     gameFrameAdj[5] = {1, 2, 3, 4, 0};
 int     gameFrame;
 
-void DoDrawClock()
+void DoDrawClock( void )
 {
     char    text[24] = "\x1\x0\x2\x7" " " "\x2\x6" " " "\x2\x5" ":" "\x2\x4" " " "\x2\x3" " " "\x2\x2" " " "\x2\x1" "m";
 
@@ -126,7 +126,7 @@ void DoDrawClock()
     DoClockUpdate = DoNothing;
 }
 
-void DrawItems()
+void DrawItems( void )
 {
     char    text[9] = "\x1\x0\x2\x6" " " "\x2\x7" " ";
 
@@ -139,7 +139,7 @@ void DrawItems()
     Video_WriteLarge(6 * 8 + 4, STATUS, text);
 }
 
-void GameDrawLives()
+void GameDrawLives( void )
 {
     int l;
 
@@ -149,7 +149,7 @@ void GameDrawLives()
     }
 }
 
-void Game_DrawStatus()
+void Game_DrawStatus( void )
 {
     Video_PixelPaperFill(128 * WIDTH, 64 * WIDTH, 0x0);
     Video_PixelInkFill(129 * WIDTH, 8 * WIDTH, 0x6);
@@ -212,7 +212,7 @@ void Game_ChangeLevel(int dir)
     Game_InitRoom();
 }
 
-void ClockTicker()
+void ClockTicker( void )
 {
     // 256 frames = 1 game minute
     // 19 game hours = 6.75... actual hours (19 * 60 * 256 / 12 / 60 / 60)
@@ -248,7 +248,7 @@ void ClockTicker()
 }
 
 
-void Game_GotItem()
+void Game_GotItem( void )
 {
     gameScoreItems++;
     DrawItems();
@@ -262,7 +262,7 @@ void Game_GotItem()
     Audio_Sfx(SFX_ITEM);
 }
 
-void DoPauseDrawer()
+void DoPauseDrawer( void )
 {
     if (gamePaused == 16 * 5)
     {
@@ -270,7 +270,7 @@ void DoPauseDrawer()
     }
 }
 
-void DoPauseTicker()
+void DoPauseTicker( void )
 {
     if (gamePaused++ == 16 * 5)
     {
@@ -278,7 +278,7 @@ void DoPauseTicker()
     }
 }
 
-void DoGameDrawer()
+void DoGameDrawer( void )
 {
     if (gameFrame != 0)
     {
@@ -304,7 +304,7 @@ void DoGameDrawer()
     DoClockUpdate();
 }
 
-void DoGameTicker()
+void DoGameTicker( void )
 {
     if (gameFrame != 0)
     {
@@ -398,7 +398,7 @@ void Game_Pause(int state)
     }
 }
 
-void DoGameResponder()
+void DoGameResponder( void )
 {
     gameInactivityTimer = 0;
 
@@ -423,7 +423,7 @@ void DoGameResponder()
     }
 }
 
-void DoGameAction()
+void DoGameAction( void )
 {
     gameFrame = gameFrameAdj[gameFrame];
 
@@ -438,7 +438,7 @@ void DoGameAction()
     }
 }
 
-void Game_InitRoom()
+void Game_InitRoom( void )
 {
     Level_Init();
     Robots_Init();
@@ -463,7 +463,7 @@ void Game_InitRoom()
     Action = DoGameAction;
 }
 
-void Game_GameReset()
+void Game_GameReset( void )
 {
     gameScoreItems = 0;
 
@@ -482,7 +482,7 @@ void Game_GameReset()
     Audio_Music(MUS_GAME, gameMusic);
 }
 
-void Game_Action()
+void Game_Action( void )
 {
     Responder = DoGameResponder;
     Ticker = Game_InitRoom;
