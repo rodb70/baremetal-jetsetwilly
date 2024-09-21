@@ -3,7 +3,7 @@
 #include <time.h>
 
 #include "misc.h"
-
+#include "audio.h"
 SDL_Window          *sdlWindow;
 SDL_Renderer        *sdlRenderer;
 SDL_Texture         *sdlTexture, *sdlTarget;
@@ -85,8 +85,12 @@ void System_Border(int index)
 void SdlCallback(void *unused, Uint8 *buffer, int length)
 {
     (void)unused;
-
+#ifdef NO_AUDIO
+    (void)buffer;
+    (void)length;
+#else
     Audio_Callback((short *)buffer, length / 2);
+#endif
 }
 
 void System_VideoUpdate( void )
@@ -201,8 +205,11 @@ void System_Init( void )
     SDL_DisplayMode mode;
     int             multiply;
 
+#ifdef NO_AUDIO
+    SDL_Init(SDL_INIT_VIDEO );
+#else
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-
+#endif
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
     SDL_GetDesktopDisplayMode(0, &mode);

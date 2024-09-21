@@ -10,8 +10,6 @@ CPU := host
 BLD_TARGET := jetsetwilly
 BLD_TYPE := debug
 
-USE_AUDIO := n
-
 ifeq ($(CPU),rpi1)
 PROJ_DIRS := rpi1
 endif
@@ -26,6 +24,8 @@ PROJ_DIRS += src
 
 CFLAGS := -DBUILD=\"v1.0.$(YEAR)\"
 CFLAGS += -DNOCODES
+CFLAGS += -DNO_AUDIO=1
+
 
 include makefiles/main.mk
 

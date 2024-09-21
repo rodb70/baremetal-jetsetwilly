@@ -18,5 +18,3 @@ extern UINT videoPalette[16];
 void Timer_Set(TIMER *, int, int);
 int Timer_Update(TIMER *);
 int Video_Viewport(int, int, int *, int *, int *, int *);
-
-void Audio_Callback(short *, int);

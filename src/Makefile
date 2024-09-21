@@ -37,9 +37,6 @@ $(if $(MAKECMDGOALS),$(MAKECMDGOALS),all):
 	@$(MAKE) -C .. $@
 endif
 
-ifneq ($(USE_AUDIO),n)
-CFLAGS += -DNO_AUDIO=1
-endif
 CSRC += audio.c
 CSRC += cheat.c
 CSRC += codes.c

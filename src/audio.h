@@ -30,6 +30,7 @@ void Audio_Play(int);
 void Audio_WillySfx(int, int);
 void Audio_Sfx(int);
 void Audio_ReduceMusicSpeed(void);
+void Audio_Callback(short *buffer, int length);
 #else
 #define Audio_Init(...)
 #define Audio_Music(...)
@@ -37,6 +38,7 @@ void Audio_ReduceMusicSpeed(void);
 #define Audio_WillySfx(...)
 #define Audio_Sfx(...)
 #define Audio_ReduceMusicSpeed(...)
+#define Audio_Callback(...)
 #endif
 
 #endif
