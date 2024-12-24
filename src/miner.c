@@ -439,8 +439,8 @@ void DoMinerTicker()
 
 void Miner_Ticker()
 {
-    int tile, offset = 0, align;
-    int i, type;
+    int     tile, adj, offset = 0, align;
+    int     i, type;
 
     DoMinerTicker();
 
@@ -464,9 +464,8 @@ void Miner_Ticker()
         minerWilly.dy += offset;
     }
 
-    for (i = 0; i < align; i++)
+    for (i = 0, adj = 1; i < align; i++, tile += adj, adj ^= 30)
     {
-        tile = minerWilly.tile + SPRITETILE(i);
         type = Level_GetTileType(tile);
         if (type == T_ITEM)
         {

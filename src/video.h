@@ -2,7 +2,6 @@
 #define B_ROBOT   2
 #define B_WILLY   4
 
-#define SPRITETILE(t)   (((t & 6) << 4) | (t & 1))
 #define TILE2PIXEL(t)   (((t & 992) << 6) | ((t & 31) << 3))
 #define YALIGN(y)       (4 | ((y & 4) >> 1) | (y & 2) | ((y & 1) << 1))
 
