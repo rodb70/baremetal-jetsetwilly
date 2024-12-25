@@ -3,19 +3,13 @@
 #include "audio.h"
 #include "system.h"
 
-#ifndef NOCODES
-#define NEXT_ACTION Codes_Action
-#else
-#define NEXT_ACTION Title_Action
-#endif
-
 int     loaderTicks = 0;
 char    loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";
 int     loaderFlash = 0;
 
 void DoLoaderResponder()
 {
-    Action = NEXT_ACTION;
+    Action = Title_Action;
 }
 
 void DoLoaderTicker()
@@ -32,7 +26,7 @@ void DoLoaderTicker()
 
     if (loaderTicks++ == 256)
     {
-        Action = NEXT_ACTION;
+        Action = Codes_Action;
     }
 }
 
