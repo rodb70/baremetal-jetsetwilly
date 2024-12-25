@@ -33,6 +33,5 @@ has the same effect.
 ## Copy protection
 
 The original game needed a "code card" to start the game after loading. This was
-an early attempt at copy protection. This port defaults to not requiring you to
-enter any codes. If you want to experience entering those codes, you can comment
-out the line in the Makefile "DEFINES += -DNOCODES" with a proceeding hash (#).
+an early attempt at copy protection. If you don't want to experience entering
+those codes, press any key during the "JetSet Willy Loading" sequence.

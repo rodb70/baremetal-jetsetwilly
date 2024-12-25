@@ -1,16 +1,16 @@
 # jetset willy
 
+PWD = $(notdir $(shell pwd))
 YEAR = $(shell date +'%Y')
 
 TARGET = jetsetwilly
 
 CC = gcc
 
-CFLAGS = -g -Wall -Wextra -MMD
-LDFLAGS = -lSDL2
+CFLAGS = -g -Wall -Wextra -MMD `sdl2-config --cflags`
+LDFLAGS = `sdl2-config --libs`
 
-DEFINES = -DBUILD=\"v1.0.$(YEAR)\"
-DEFINES += -DNOCODES
+DEFINES = -DBUILD=\"$(PWD).$(YEAR)\"
 
 SRC = src
 O = linux
