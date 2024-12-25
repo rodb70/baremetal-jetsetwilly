@@ -481,7 +481,7 @@ void Miner_Ticker()
 
 void Miner_Drawer()
 {
-    Video_DrawMiner(minerWilly.dy << 8 | minerWilly.x, minerFrame[minerWilly.frame], minerAttrSplit);
+    Video_DrawMiner((minerWilly.dy << 8) | minerWilly.x, minerFrame[minerWilly.frame], minerAttrSplit);
 }
 
 void Miner_Init()
