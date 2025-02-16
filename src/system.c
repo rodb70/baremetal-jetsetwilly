@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <time.h>
 
@@ -15,16 +15,11 @@ const BYTE          *keyState;
 UINT                *texPixels;
 int                 texPitch;
 
-void System_StartFrame()
+int System_GetTime()
 {
-    static UINT time = 0;
+    SDL_Delay(1);
 
-    while (time > SDL_GetTicks() * TICKRATE)
-    {
-        SDL_Delay(1);
-    }
-
-    time += 1000;
+    return SDL_GetTicks() * TICKRATE / 1000;
 }
 
 void System_LockTexture()
@@ -82,11 +77,18 @@ void System_Border(int index)
     SDL_SetRenderDrawColor(sdlRenderer, videoPalette[index] >> 16, (videoPalette[index] >> 8) & 0xff, videoPalette[index] & 0xff, 0xff);
 }
 
-void SdlCallback(void *unused, Uint8 *buffer, int length)
+void SdlCallback(void *unused, Uint8 *stream, int length)
 {
     (void)unused;
 
-    Audio_Callback((short *)buffer, length / 2);
+    short   *output = (short *)stream;
+
+    while (length)
+    {
+        Audio_Output(output);
+        output += 2;
+        length -= 4;
+    }
 }
 
 void System_VideoUpdate()
