@@ -15,11 +15,9 @@ const BYTE          *keyState;
 UINT                *texPixels;
 int                 texPitch;
 
-int System_GetTime()
+void System_Delay()
 {
     SDL_Delay(1);
-
-    return SDL_GetTicks() * TICKRATE / 1000;
 }
 
 void System_LockTexture()

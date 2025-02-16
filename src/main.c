@@ -11,6 +11,7 @@ EVENT   Drawer = DoNothing;
 int     gameRunning = 1, gameInput;
 
 int     videoFlash = 0;
+int     videoSync = 0;
 
 void DoNothing()
 {
@@ -32,8 +33,6 @@ int main()
 
     while (gameRunning)
     {
-        System_StartFrame();
-
         Action();
 
         while (System_PollKeys(&gameInput))
@@ -46,6 +45,13 @@ int main()
 
         Video_Draw();
         System_VideoUpdate();
+
+        do
+        {
+            System_Delay();
+        }
+        while (!videoSync);
+        videoSync = 0;
 
         flash++;
         if (flash == 20)

@@ -13,4 +13,4 @@ void System_AudioLock(void);
 void System_AudioUnlock(void);
 void System_LockTexture(void);
 void System_UnlockTexture(void);
-void System_StartFrame(void);
+void System_Delay(void);

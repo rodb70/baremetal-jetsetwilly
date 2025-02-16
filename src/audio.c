@@ -353,6 +353,7 @@ void Audio_Output(short output[2])
     if (samplesMusic == 0)
     {
         samplesMusic = Timer_Update(&timerMusic);
+        videoSync = 1;
 
         if (audioMusicPlaying)
         {
