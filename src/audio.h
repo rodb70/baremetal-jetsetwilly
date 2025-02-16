@@ -1,6 +1,3 @@
-#ifndef __AUDIO_H__
-#define __AUDIO_H__
-
 #define MUS_STOP    0
 #define MUS_PLAY    1
 
@@ -30,5 +27,3 @@ void Audio_Play(int);
 void Audio_WillySfx(int, int);
 void Audio_Sfx(int);
 void Audio_ReduceMusicSpeed(void);
-
-#endif
