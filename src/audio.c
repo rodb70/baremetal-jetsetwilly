@@ -353,7 +353,6 @@ void Audio_Output(short output[2])
     if (samplesMusic == 0)
     {
         samplesMusic = Timer_Update(&timerMusic);
-        videoSync = 1;
 
         if (audioMusicPlaying)
         {
@@ -393,6 +392,8 @@ void Audio_Output(short output[2])
 
     if (samplesSfx == 0)
     {
+        videoSync = 1;
+
         samplesSfx = Timer_Update(&timerSfx);
 
         curSfx = &sfxInfo[0];
