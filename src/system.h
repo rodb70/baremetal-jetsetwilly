@@ -1,4 +1,4 @@
-void System_Init(void);
+int System_Init(void);
 void System_Quit(void);
 int System_PollKeys(int *);
 void System_VideoUpdate(void);

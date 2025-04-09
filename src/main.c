@@ -1,4 +1,4 @@
-#include "common.h"
+#include "misc.h"
 #include "system.h"
 #include "video.h"
 #include "audio.h"
@@ -26,10 +26,23 @@ void DoQuit()
 
 int main()
 {
-    int flash = 0;
+    TIMER   timer;
+    int     flash = 0;
+    int     sync;
+    int     rate;
+    int     frame;
 
     Audio_Init();
-    System_Init();
+
+    rate = System_Init();
+    sync = rate > TICKRATE;
+    Timer_Set(&timer, TICKRATE, rate);
+    if (timer.rate < 1)
+    {
+        timer.rate = 1;
+        timer.remainder = 0;
+    }
+    frame = timer.rate;
 
     while (gameRunning)
     {
@@ -43,22 +56,30 @@ int main()
         Ticker();
         Drawer();
 
-        Video_Draw();
-        System_VideoUpdate();
-
-        do
-        {
-            System_Delay();
-        }
-        while (!videoSync);
-        videoSync = 0;
-
         flash++;
         if (flash == 20)
         {
             flash = 0;
             videoFlash = 1 - videoFlash;
         }
+
+        if (--frame > 0)
+        {
+            continue;
+        }
+
+        frame = Timer_Update(&timer);
+
+        Video_Draw();
+
+        videoSync = 0;
+        do
+        {
+            System_Delay();
+        }
+        while (!videoSync && sync);
+
+        System_VideoUpdate();
     }
 
     System_Quit();
