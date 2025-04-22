@@ -5,7 +5,6 @@
 #define TILE2PIXEL(t)   (((t & 992) << 6) | ((t & 31) << 3))
 #define YALIGN(y)       (4 | ((y & 4) >> 1) | (y & 2) | ((y & 1) << 1))
 
-void Video_Draw(void);
 void Video_Write(int, char *);
 void Video_WriteLarge(int, int, char *);
 void Video_DrawSprite(int, WORD *, BYTE, BYTE);

@@ -53,8 +53,10 @@ int main()
             Responder();
         }
 
+        System_LockTexture();
         Ticker();
         Drawer();
+        System_UnlockTexture();
 
         flash++;
         if (flash == 20)
@@ -69,8 +71,6 @@ int main()
         }
 
         frame = Timer_Update(&timer);
-
-        Video_Draw();
 
         videoSync = 0;
         do
