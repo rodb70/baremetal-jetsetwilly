@@ -96,11 +96,11 @@ void SdlCallback(void *unused, Uint8 *stream, int length)
     }
 }
 
-int System_PollKeys(int *key)
+int System_GetEvent()
 {
     SDL_Event   event;
 
-    *key = KEY_NONE;
+    gameInput = KEY_NONE;
 
     if (SDL_PollEvent(&event) == 0)
     {
@@ -113,41 +113,33 @@ int System_PollKeys(int *key)
         return 1;
     }
 
-    if (event.type == SDL_WINDOWEVENT)
-    {
-        if (event.window.event == SDL_WINDOWEVENT_SHOWN)
-        {
-            SDL_ShowCursor(SDL_DISABLE);
-        }
-    }
-
     if (event.type != SDL_KEYDOWN)
     {
-        return 0;
+        return 1;
     }
 
     if (event.key.repeat)
     {
-        return 0;
+        return 1;
     }
 
     switch (event.key.keysym.sym)
     {
       case SDLK_RETURN:
-        *key = KEY_ENTER;
+        gameInput = KEY_ENTER;
         break;
 
       case SDLK_ESCAPE:
-        *key = KEY_ESCAPE;
+        gameInput = KEY_ESCAPE;
         break;
 
       case SDLK_PAUSE:
       case SDLK_TAB:
-        *key = KEY_PAUSE;
+        gameInput = KEY_PAUSE;
         break;
 
       case SDLK_m:
-        *key = KEY_MUTE;
+        gameInput = KEY_MUTE;
         break;
 
       case SDLK_0:
@@ -160,7 +152,7 @@ int System_PollKeys(int *key)
       case SDLK_7:
       case SDLK_8:
       case SDLK_9:
-        *key = KEY_0 + (event.key.keysym.sym - SDLK_0);
+        gameInput = KEY_0 + (event.key.keysym.sym - SDLK_0);
         break;
 
       case SDLK_e:
@@ -170,11 +162,11 @@ int System_PollKeys(int *key)
       case SDLK_t:
       case SDLK_w:
       case SDLK_y:
-        *key = KEY_A + (event.key.keysym.sym - SDLK_a);
+        gameInput = KEY_A + (event.key.keysym.sym - SDLK_a);
         break;
 
       default:
-        *key = KEY_ELSE;
+        gameInput = KEY_ELSE;
     }
 
     return 1;
@@ -207,6 +199,8 @@ int main()
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
     sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
+    SDL_ShowCursor(SDL_DISABLE);
+
     want.freq = SAMPLERATE;
     want.format = AUDIO_S16SYS;
     want.channels = 2;
@@ -235,9 +229,12 @@ int main()
         {
             Action();
 
-            while (System_PollKeys(&gameInput))
+            while (System_GetEvent())
             {
-                Responder();
+                if (gameInput != KEY_NONE)
+                {
+                    Responder();
+                }
             }
 
             Ticker();
