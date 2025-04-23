@@ -1,7 +1,6 @@
 #include "common.h"
 #include "video.h"
 #include "audio.h"
-#include "system.h"
 #include "game.h"
 
 WORD    plinthSprite[16] = {14316, 30702, 0, 28662, 61431, 61431, 54619, 56251, 54619, 57339, 60791, 61175, 28022, 0, 30702, 14316};

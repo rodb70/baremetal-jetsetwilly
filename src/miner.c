@@ -2,7 +2,6 @@
 #include "video.h"
 #include "game.h"
 #include "audio.h"
-#include "system.h"
 
 #define D_LEFT  0
 #define D_RIGHT 1

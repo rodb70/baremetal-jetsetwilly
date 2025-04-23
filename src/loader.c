@@ -1,7 +1,6 @@
 #include "misc.h"
 #include "video.h"
 #include "audio.h"
-#include "system.h"
 
 int     loaderTicks = 0;
 char    loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";

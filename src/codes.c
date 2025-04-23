@@ -2,7 +2,6 @@
 
 #include "common.h"
 #include "video.h"
-#include "system.h"
 
 #define CODE(p, s)  ((codesCode[p] - 1) << s)
 
