@@ -25,7 +25,6 @@ EVENT   Drawer = DoNothing;
 int     gameRunning = 1, gameInput;
 
 int     videoFlash = 0;
-int     videoSync = 0;
 
 void DoNothing()
 {
@@ -189,7 +188,6 @@ int main()
 
     TIMER   timer;
     int     flash = 0;
-    int     sync;
     int     frame;
 
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -224,50 +222,36 @@ int main()
 
     Audio_Init();
 
-    sync = mode.refresh_rate > TICKRATE;
     Timer_Set(&timer, TICKRATE, mode.refresh_rate);
-    if (timer.rate < 1)
-    {
-        timer.rate = 1;
-        timer.remainder = 0;
-    }
-    frame = timer.rate;
 
     while (gameRunning)
     {
-        Action();
-
-        while (System_PollKeys(&gameInput))
-        {
-            Responder();
-        }
+        frame = Timer_Update(&timer);
 
         SDL_LockTextureToSurface(sdlTexture, NULL, &sdlSurface);
         texPixels = (UINT *)sdlSurface->pixels;
-        Ticker();
-        Drawer();
+
+        while (frame--)
+        {
+            Action();
+
+            while (System_PollKeys(&gameInput))
+            {
+                Responder();
+            }
+
+            Ticker();
+            Drawer();
+
+            flash++;
+            if (flash == 20)
+            {
+                flash = 0;
+                videoFlash = 1 - videoFlash;
+            }
+        }
+
         SDL_UnlockTexture(sdlTexture);
-
-        flash++;
-        if (flash == 20)
-        {
-            flash = 0;
-            videoFlash = 1 - videoFlash;
-        }
-
-        if (--frame > 0)
-        {
-            continue;
-        }
-
-        frame = Timer_Update(&timer);
-
-        videoSync = 0;
-        do
-        {
-            SDL_Delay(1);
-        }
-        while (!videoSync && sync);
 
         SDL_RenderClear(sdlRenderer);
         SDL_SetRenderTarget(sdlRenderer, sdlTarget);
