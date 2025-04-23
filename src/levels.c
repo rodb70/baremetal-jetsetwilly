@@ -15,8 +15,8 @@ typedef struct
 {
     int     type;
     BYTE    *gfx;
-    BYTE    paper;
-    BYTE    ink;
+    BYTE    paper[3];
+    BYTE    ink[3];
     EVENT   DoDraw;
 }
 TILE;
@@ -1545,12 +1545,19 @@ void Level_RestoreItems()
 
 void DoTile()
 {
-    Video_DrawTile(curCell, curTile->gfx, curTile->paper & 0xf, curTile->ink);
+    Video_DrawTile(curCell, curTile->gfx, curTile->paper[2], curTile->ink[2]);
 }
 
 void DoItem()
 {
-    curTile->ink = (((curTile->ink) - 2) & 3) + 3;
+    curTile->ink[2] = ((curTile->ink[2] - 2) & 3) + 3;
+    DoTile();
+}
+
+void DoFlash()
+{
+    curTile->paper[2] = curTile->paper[videoFlash];
+    curTile->ink[2] = curTile->ink[videoFlash];
     DoTile();
 }
 
@@ -1559,8 +1566,8 @@ void Level_EraseItem(int tile)
     levelData[gameLevel][tile] = 0;
     levelTile[tile].type = T_SPACE;
     levelTile[tile].gfx = gfxSpace;
-    levelTile[tile].ink = levelInfo[gameLevel][0].attr & 15;
-    levelTile[tile].paper = levelInfo[gameLevel][0].attr >> 4;
+    levelTile[tile].paper[0] = levelInfo[gameLevel][0].attr >> 4;
+    levelTile[tile].ink[0] = levelInfo[gameLevel][0].attr & 15;
     levelTile[tile].DoDraw = DoTile;
 }
 
@@ -1616,28 +1623,11 @@ void Level_Ticker()
 
 void Level_Drawer()
 {
-    static int  flash = 0, swap;
-    BYTE        ink;
-
-    swap = flash != videoFlash;
-
     curTile = &levelTile[0];
 
     for (curCell = 0; curCell < 512; curCell++, curTile++)
     {
-        if (swap && curTile->paper & 0x10)
-        {
-            ink = curTile->ink;
-            curTile->ink = curTile->paper & 0xf;
-            curTile->paper = 0x10 | ink;
-        }
-
         curTile->DoDraw();
-    }
-
-    if (swap)
-    {
-        flash = videoFlash;
     }
 }
 
@@ -1654,14 +1644,22 @@ void Level_Init()
     {
         tile->type = info[*data].type;
         tile->gfx = levelGfx[gameLevel][*data];
-        tile->paper = info[*data].attr >> 4;
-        tile->ink = info[*data].attr & 15;
+        tile->paper[0] = (info[*data].attr >> 4) & 0xf;
+        tile->ink[0] = info[*data].attr & 0xf;
         tile->DoDraw = DoTile;
         if (tile->type == T_ITEM)
         {
-            tile->ink = (item++ & 3) + 3;
+            tile->ink[0] = (item++ & 3) + 3;
             tile->DoDraw = DoItem;
         }
+        else if (info[*data].attr & 0x100)
+        {
+            tile->paper[1] = tile->ink[0];
+            tile->ink[1] = tile->paper[0];
+            tile->DoDraw = DoFlash;
+        }
+        tile->paper[2] = tile->paper[0];
+        tile->ink[2] = tile->ink[0];
     }
 
     dir = info[2].type == T_CONVEYL ? 0 : 2;

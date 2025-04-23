@@ -2,7 +2,6 @@
 #include "video.h"
 #include "audio.h"
 #include "game.h"
-#include "system.h"
 
 int     titleJSW[] =
 {
@@ -26,7 +25,6 @@ int     textPos, textEnd = (int)sizeof(textTicker) - 33;
 int     textFrame;
 BYTE    colourCycle;
 int     colourCycleAdj[6] = {1, 2, 3, 4, 5, 1};
-int     titleFlash = 0;
 
 void GameStart()
 {
@@ -54,16 +52,17 @@ void GameStart()
 
 void DoTitleTicker()
 {
-    char    swap;
-
     if (audioMusicPlaying)
     {
-        if (titleFlash != videoFlash)
+        if (videoFlash)
         {
-            swap = textJSW[3];
-            textJSW[3] = textJSW[1];
-            textJSW[1] = swap;
-            titleFlash = videoFlash;
+            textJSW[1] = '\xb';
+            textJSW[3] = '\x2';
+        }
+        else
+        {
+            textJSW[1] = '\x2';
+            textJSW[3] = '\xb';
         }
 
         return;

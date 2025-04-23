@@ -4,7 +4,6 @@
 
 int     loaderTicks = 0;
 char    loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";
-int     loaderFlash = 0;
 
 void DoLoaderResponder()
 {
@@ -13,14 +12,15 @@ void DoLoaderResponder()
 
 void DoLoaderTicker()
 {
-    BYTE    swap;
-
-    if (loaderFlash != videoFlash)
+    if (videoFlash)
     {
-        swap = loaderText[3];
-        loaderText[3] = loaderText[1];
-        loaderText[1] = swap;
-        loaderFlash = videoFlash;
+        loaderText[1] = '\x7';
+        loaderText[3] = '\x2';
+    }
+    else
+    {
+        loaderText[1] = '\x2';
+        loaderText[3] = '\x7';
     }
 
     if (loaderTicks++ == 256)

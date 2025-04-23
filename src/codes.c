@@ -33,7 +33,6 @@ int     codesPos, codesPosLast = 0;
 int     codesCode[4];
 int     codesKey;
 char    codesCell[7] = "\x1\x0\x2\x7\x14\x14";
-int     codesFlash = 0;
 
 void DrawCursor(int pos)
 {
@@ -48,7 +47,7 @@ void DrawCursor(int pos)
 
 void GetCode()
 {
-    char    location[5] = "\x2\x7";
+    char    location[5] = "\x2\x7  ";
 
     codesNeeded = System_Rnd() % 180;
 
@@ -75,7 +74,7 @@ void GetCode()
 
 void DoCodesDrawer()
 {
-    codesCell[3] = 0x7;
+    codesCell[3] = '\x7';
     DrawCursor(codesPos);
 
     if (codesKey == 0)
@@ -91,14 +90,15 @@ void DoCodesDrawer()
 
 void DoCodesTicker()
 {
-    BYTE    swap;
-
-    if (codesFlash != videoFlash)
+    if (videoFlash)
     {
-        swap = codesCell[0];
-        codesCell[0] = codesCell[2];
-        codesCell[2] = swap;
-        codesFlash = videoFlash;
+        codesCell[0] = '\x2';
+        codesCell[2] = '\x1';
+    }
+    else
+    {
+        codesCell[0] = '\x1';
+        codesCell[2] = '\x2';
     }
 
     if (codesKey < 1)
