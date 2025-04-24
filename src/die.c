@@ -3,6 +3,8 @@
 #include "game.h"
 #include "audio.h"
 
+WORD    dieBlank[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 int dieLevel;
 
 void Die_Drawer()
@@ -23,7 +25,7 @@ void Die_Ticker()
         return;
     }
 
-    Video_DrawSprite(LIVES + gameLives * 16, minerSprite[8], 0x0, 0x0); // blank frame
+    Video_DrawSprite(LIVES + gameLives * 16, dieBlank, 0x0, 0x0);
 
     Miner_Restore();
 
