@@ -1,4 +1,4 @@
-#include "common.h"
+#include "misc.h"
 #include "audio.h"
 #include "video.h"
 
@@ -104,8 +104,8 @@ int     gameInactivityTimer;
 
 BYTE    lifeInk[] = {0x2, 0x4, 0x6, 0x1, 0x3, 0x5, 0x7};
 
-int     gameFrameAdj[5] = {1, 2, 3, 4, 0};
 int     gameFrame;
+TIMER   gameTimer;
 
 void DoDrawClock()
 {
@@ -279,7 +279,7 @@ void DoPauseTicker()
 
 void DoGameDrawer()
 {
-    if (gameFrame != 0)
+    if (gameFrame == 0)
     {
         return;
     }
@@ -305,7 +305,8 @@ void DoGameDrawer()
 
 void DoGameTicker()
 {
-    if (gameFrame != 0)
+    gameFrame = Timer_Update(&gameTimer);
+    if (gameFrame == 0)
     {
         return;
     }
@@ -404,7 +405,6 @@ void DoGameResponder()
     if (gameInput == KEY_PAUSE || gamePaused)
     {
         Game_Pause(gamePaused ? 0 : 1);
-        gameFrame = 0;
     }
 
     if (gameInput == KEY_MUTE)
@@ -424,8 +424,6 @@ void DoGameResponder()
 
 void DoGameAction()
 {
-    gameFrame = gameFrameAdj[gameFrame];
-
     if (gameInactivityTimer == 256)
     {
         if (gameMusic == MUS_STOP && gameMode < GM_RUNNING)
@@ -454,7 +452,7 @@ void Game_InitRoom()
         minerAttrSplit = 5; // willy goes blue when underwater
     }
 
-    gameFrame = 0;
+    Timer_Set(&gameTimer, 12, TICKRATE);
     gameInactivityTimer = 0;
 
     Ticker = DoGameTicker;
