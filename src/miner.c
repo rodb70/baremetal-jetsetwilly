@@ -1,4 +1,4 @@
-#include "common.h"
+#include "misc.h"
 #include "video.h"
 #include "game.h"
 #include "audio.h"
@@ -64,15 +64,28 @@ static MINER    minerStore;
 static WORD     (*minerFrame)[16];
 static int      minerAlign;
 
-BYTE            minerSeqIndex;
+static BYTE     minerSeqIndex;
 static int      minerSeq[] = {4, 5, 6, 7, 3, 2, 1, 0};
+static TIMER    minerTimer;
 
 MINER           minerWilly;
 int             minerAttrSplit;
 
-WORD *Miner_GetSprite()
+void Miner_SetSeq(int index, int speed)
 {
-    return minerSprite[minerSeq[minerSeqIndex >> 5]];
+    Timer_Set(&minerTimer, 1, speed);
+    minerSeqIndex = index;
+}
+
+void Miner_IncSeq()
+{
+    minerSeqIndex += Timer_Update(&minerTimer);
+    minerSeqIndex &= 7;
+}
+
+void Miner_DrawSeqSprite(int pos, BYTE paper, BYTE ink)
+{
+    Video_DrawSprite(pos, minerSprite[minerSeq[minerSeqIndex]], paper, ink);
 }
 
 void Miner_Restore()

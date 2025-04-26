@@ -100,14 +100,15 @@ int Level_ItemCount(void);
 
 // miner
 extern int  minerAttrSplit;
-extern BYTE minerSeqIndex;
 
 void Miner_Init(void);
 void Miner_Ticker(void);
 void Miner_Drawer(void);
 void Miner_Save(void);
 void Miner_Restore(void);
-WORD *Miner_GetSprite(void);
+void Miner_SetSeq(int, int);
+void Miner_IncSeq(void);
+void Miner_DrawSeqSprite(int, BYTE, BYTE);
 
 // robots
 void Robots_Init(void);

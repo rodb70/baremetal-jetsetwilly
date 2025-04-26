@@ -147,7 +147,7 @@ static void GameDrawLives()
 
     for (l = 0; l < gameLives; l++)
     {
-        Video_DrawSprite(LIVES + l * 16, Miner_GetSprite(), 0x0, lifeInk[l]);
+        Miner_DrawSeqSprite(LIVES + l * 16, 0x0, lifeInk[l]);
     }
 }
 
@@ -282,6 +282,11 @@ static void DoPauseTicker()
 
 static void DoGameDrawer()
 {
+    if (gameMusic == MUS_PLAY)
+    {
+        GameDrawLives();
+    }
+
     if (gameFrame == 0)
     {
         return;
@@ -289,11 +294,6 @@ static void DoGameDrawer()
 
     Level_Drawer();
     Robots_Drawer();
-
-    if (gameMusic == MUS_PLAY)
-    {
-        GameDrawLives();
-    }
 
     if (gameMode == GM_TOILET)
     {
@@ -308,6 +308,11 @@ static void DoGameDrawer()
 
 static void DoGameTicker()
 {
+    if (gameMusic == MUS_PLAY)
+    {
+        Miner_IncSeq();
+    }
+
     gameFrame = Timer_Update(&gameTimer);
     if (gameFrame == 0)
     {
@@ -318,11 +323,6 @@ static void DoGameTicker()
 
     Level_Ticker();
     Robots_Ticker();
-
-    if (gameMusic == MUS_PLAY)
-    {
-        minerSeqIndex += 8;
-    }
 
     if (gameMode == GM_TOILET)
     {
@@ -476,7 +476,7 @@ void Game_GameReset()
 
     gamePaused = 0;
 
-    minerSeqIndex = 0;
+    Miner_SetSeq(0, 20);
     gameLives = 7;
 
     Audio_Music(MUS_GAME, gameMusic);
