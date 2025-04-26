@@ -48,8 +48,6 @@ extern int      gameLives;
 
 extern MINER    minerWilly;
 
-extern WORD     robotGfx[][8][16];
-
 // game
 extern int  gameLevel;
 extern int  gameClockTicks;
@@ -101,7 +99,6 @@ void Level_EraseItem(int);
 int Level_ItemCount(void);
 
 // miner
-extern WORD minerSprite[][16];
 extern int  minerAttrSplit;
 extern BYTE minerSeqIndex;
 
