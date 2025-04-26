@@ -20,7 +20,7 @@ typedef struct
 }
 ROPE;
 
-POINT   ropeStart[60] =
+static POINT    ropeStart[60] =
 {
     {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
     {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {16, 3}, {0, 0}, {16, 15}, {0, 0},
@@ -30,19 +30,19 @@ POINT   ropeStart[60] =
     {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {14, 15}, {0, 0}, {0, 0}
 };
 
-POINT   ropeInc[86] =
+static POINT    ropeInc[86] =
 {
     {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {0, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3}, {2, 3}, {2, 3}, {2, 3}, {2, 3}, {2, 2}, {2, 3}, {2, 3}, {2, 2}, {2, 3}, {2, 2}, {2, 3}, {2, 2}, {2, 3}, {2, 2}, {2, 2}, {2, 2}, {2, 3}, {2, 2}, {2, 2}, {2, 2}, {2, 2}, {2, 2}, {1, 2}, {2, 2}, {2, 2}, {1, 2}, {1, 2}, {2, 2}, {1, 2}, {1, 2}, {2, 2}, {2, 2}, {3, 2}, {2, 2}, {3, 2}, {2, 2}, {3, 2}, {3, 2}, {3, 2}, {3, 2}, {3, 2}, {3, 2}
 };
 
-int     ropeDir, ropeFrame;
-BYTE    ropeInk;
+static int      ropeDir, ropeFrame;
+static BYTE     ropeInk;
 
-ROPE    ropeSeg[ROPE_SEGS];
+static ROPE     ropeSeg[ROPE_SEGS];
 
-EVENT   Rope_Ticker, Rope_Drawer;
+EVENT           Rope_Ticker, Rope_Drawer;
 
-void DoRopeDrawer()
+static void DoRopeDrawer()
 {
     int seg;
 
@@ -52,7 +52,7 @@ void DoRopeDrawer()
     }
 }
 
-int Rope_Animate()
+static int Rope_Animate()
 {
     int     x, y, seg, frame, hit = 0;
     ROPE    *rope = &ropeSeg[0];
@@ -104,7 +104,7 @@ int Rope_Animate()
     return hit;
 }
 
-void DoRopeTicker()
+static void DoRopeTicker()
 {
     int seg, x;
 

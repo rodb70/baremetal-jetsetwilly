@@ -6,25 +6,27 @@
 #include "video.h"
 #include "audio.h"
 
-SDL_Window          *sdlWindow;
-SDL_Renderer        *sdlRenderer;
-SDL_Texture         *sdlTexture, *sdlTarget;
-SDL_Surface         *sdlSurface;
-SDL_Rect            sdlViewport;
-SDL_AudioDeviceID   sdlAudio;
+static SDL_Window           *sdlWindow;
+static SDL_Renderer         *sdlRenderer;
+static SDL_Texture          *sdlTexture, *sdlTarget;
+static SDL_Surface          *sdlSurface;
+static SDL_Rect             sdlViewport;
+static SDL_AudioDeviceID    sdlAudio;
 
-const BYTE          *keyState;
+static const BYTE           *keyState;
 
-UINT                *texPixels;
+static UINT                 *texPixels;
 
-EVENT   Action = Loader_Action;
-EVENT   Responder = DoNothing;
-EVENT   Ticker = DoNothing;
-EVENT   Drawer = DoNothing;
+static int                  gameRunning = 1;
 
-int     gameRunning = 1, gameInput;
+int                         gameInput;
 
-int     videoFlash = 0;
+int                         videoFlash = 0;
+
+EVENT                       Action = Loader_Action;
+EVENT                       Responder = DoNothing;
+EVENT                       Ticker = DoNothing;
+EVENT                       Drawer = DoNothing;
 
 void DoNothing()
 {
@@ -82,7 +84,7 @@ void System_Border(int index)
     SDL_SetRenderDrawColor(sdlRenderer, videoPalette[index] >> 16, (videoPalette[index] >> 8) & 0xff, videoPalette[index] & 0xff, 0xff);
 }
 
-void SdlCallback(void *unused, Uint8 *stream, int length)
+static void SdlCallback(void *unused, Uint8 *stream, int length)
 {
     (void)unused;
 
@@ -96,7 +98,7 @@ void SdlCallback(void *unused, Uint8 *stream, int length)
     }
 }
 
-int System_GetEvent()
+static int System_GetEvent()
 {
     SDL_Event   event;
 

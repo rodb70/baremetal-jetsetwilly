@@ -3,16 +3,16 @@
 #include "game.h"
 #include "audio.h"
 
-WORD    dieBlank[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+static WORD     dieBlank[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-int dieLevel;
+static int      dieLevel;
 
-void Die_Drawer()
+static void Die_Drawer()
 {
     Video_PixelInkFill(0, 128 * WIDTH, dieLevel >> 1);
 }
 
-void Die_Ticker()
+static void Die_Ticker()
 {
     if (dieLevel-- > 0)
     {
@@ -34,7 +34,7 @@ void Die_Ticker()
     Action = Game_Action;
 }
 
-void Die_Init()
+static void Die_Init()
 {
     gameLives--;
 

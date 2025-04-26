@@ -4,15 +4,10 @@
 
 #include "game.h"
 
-int     gamePaused = 0, gameMusic = MUS_PLAY;
-int     gameLevel, gameLevelDir;
-int     gameLives;
-int     gameClockTicks;
-int     gameMode;
+static int      gameMusic = MUS_PLAY;
+static int      gameLevelDir;
 
-int     itemCount;
-
-char    *levelName[] =
+static char     *levelName[] =
 {
     "The Off Licence",
     "The Bridge",
@@ -76,7 +71,7 @@ char    *levelName[] =
     "The Bow"
 };
 
-int     levelBorder[] =
+static int      levelBorder[] =
 {
     5, 4, 6, 2, 3, 1, 2, 1, 4, 2,
     2, 4, 6, 5, 1, 3, 2, 1, 2, 1,
@@ -86,11 +81,11 @@ int     levelBorder[] =
     5, 2, 1, 2, 5, 1, 2, 2, 5, 5
 };
 
-char    gameScoreItems;
-char    gameScoreClock[3];
-EVENT   DoClockUpdate;
+static char     gameScoreItems;
+static char     gameScoreClock[3];
+static EVENT    DoClockUpdate;
 
-int     gameRoom[][4] =
+static int      gameRoom[][4] =
 {
     {0, 0, 0, 1}, {0, 0, 0, 2}, {0, 1, 0, 3}, {8, 2, 0, 4}, {6, 3, 45, 5}, {10, 4, 6, 19}, {0, 5, 0, 14}, {0, 0, 2, 8}, {12, 7, 3, 9}, {13, 8, 4, 10},
     {0, 9, 5, 11}, {0, 10, 0, 20}, {0, 0, 8, 13}, {0, 12, 9, 10}, {20, 44, 39, 15}, {0, 14, 0, 16}, {49, 15, 0, 17}, {0, 16, 0, 18}, {18, 17, 0, 47}, {0, 5, 0, 48},
@@ -100,14 +95,22 @@ int     gameRoom[][4] =
     {52, 48, 0, 57}, {53, 25, 48, 52}, {54, 51, 50, 0}, {55, 31, 51, 54}, {56, 53, 52, 0}, {0, 37, 53, 56}, {0, 55, 54, 0}, {57, 50, 0, 58}, {0, 57, 0, 59}, {0, 58, 0, 0}
 };
 
-int     gameInactivityTimer;
+static int      gameInactivityTimer;
 
-BYTE    lifeInk[] = {0x2, 0x4, 0x6, 0x1, 0x3, 0x5, 0x7};
+static BYTE     lifeInk[] = {0x2, 0x4, 0x6, 0x1, 0x3, 0x5, 0x7};
 
-int     gameFrame;
-TIMER   gameTimer;
+static int      gameFrame;
+static TIMER    gameTimer;
 
-void DoDrawClock()
+int             gamePaused = 0;
+int             gameLevel;
+int             gameLives;
+int             gameClockTicks;
+int             gameMode;
+
+int             itemCount;
+
+static void DoDrawClock()
 {
     char    text[24] = "\x1\x0\x2\x7" " " "\x2\x6" " " "\x2\x5" ":" "\x2\x4" " " "\x2\x3" " " "\x2\x2" " " "\x2\x1" "m";
 
@@ -125,7 +128,7 @@ void DoDrawClock()
     DoClockUpdate = DoNothing;
 }
 
-void DrawItems()
+static void DrawItems()
 {
     char    text[9] = "\x1\x0\x2\x6" " " "\x2\x7" " ";
 
@@ -138,7 +141,7 @@ void DrawItems()
     Video_WriteLarge(6 * 8 + 4, STATUS, text);
 }
 
-void GameDrawLives()
+static void GameDrawLives()
 {
     int l;
 
@@ -211,7 +214,7 @@ void Game_ChangeLevel(int dir)
     Game_InitRoom();
 }
 
-void ClockTicker()
+static void ClockTicker()
 {
     // 256 frames = 1 game minute
     // 19 game hours = 6.75... actual hours (19 * 60 * 256 / 12 / 60 / 60)
@@ -261,7 +264,7 @@ void Game_GotItem()
     Audio_Sfx(SFX_ITEM);
 }
 
-void DoPauseDrawer()
+static void DoPauseDrawer()
 {
     if (gamePaused == 16 * 5)
     {
@@ -269,7 +272,7 @@ void DoPauseDrawer()
     }
 }
 
-void DoPauseTicker()
+static void DoPauseTicker()
 {
     if (gamePaused++ == 16 * 5)
     {
@@ -277,7 +280,7 @@ void DoPauseTicker()
     }
 }
 
-void DoGameDrawer()
+static void DoGameDrawer()
 {
     if (gameFrame == 0)
     {
@@ -303,7 +306,7 @@ void DoGameDrawer()
     DoClockUpdate();
 }
 
-void DoGameTicker()
+static void DoGameTicker()
 {
     gameFrame = Timer_Update(&gameTimer);
     if (gameFrame == 0)
@@ -398,7 +401,7 @@ void Game_Pause(int state)
     }
 }
 
-void DoGameResponder()
+static void DoGameResponder()
 {
     gameInactivityTimer = 0;
 
@@ -422,7 +425,7 @@ void DoGameResponder()
     }
 }
 
-void DoGameAction()
+static void DoGameAction()
 {
     if (gameInactivityTimer == 256)
     {

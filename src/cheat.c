@@ -1,11 +1,12 @@
 #include "common.h"
 #include "game.h"
 
-char        cheatCode[] = "writetyper.";
-int         cheatEnabled = 0;
-int         cheatPos = 0;
-int         cheatLevel[2];
-EVENT       Cheat_Responder = Cheat_Disabled;
+static char         cheatCode[] = "writetyper.";
+static int          cheatPos = 0;
+static int          cheatLevel[2];
+
+int                 cheatEnabled = 0;
+EVENT               Cheat_Responder = Cheat_Disabled;
 
 void Cheat_Enabled()
 {

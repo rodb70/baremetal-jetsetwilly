@@ -36,7 +36,7 @@ typedef struct
 }
 SFX;
 
-int     panTable[2][249] =
+static int      panTable[2][249] =
 {
     {
         256, 254, 253, 252, 251, 250, 249, 248, 247,
@@ -76,7 +76,7 @@ int     panTable[2][249] =
     }
 };
 
-UINT    frequencyTable[128] =
+static UINT     frequencyTable[128] =
 {
     0x00184cbb, 0x0019bea3, 0x001b4688, 0x001ce5bd, 0x001e9da1, 0x00206fae, 0x00225d71, 0x00246891,
     0x002692cb, 0x0028ddfb, 0x002b4c15, 0x002ddf2d, 0x00309976, 0x00337d46, 0x00368d11, 0x0039cb7a,
@@ -96,7 +96,7 @@ UINT    frequencyTable[128] =
     0x6132edbe, 0x66fa8c2a, 0x6d1a23d8, 0x7396f4b1, 0x7a768772, 0x81beb8a3, 0x8975c674, 0x91a245b2
 };
 
-short   musicScore[3][1130] =
+static short    musicScore[3][1130] =
 {
     {
         16, 58, 0, 19, 65, 13, 3, 1, 19, 70, 13, 3, 1, 19, 73, 13, 3, 1, 19, 65, 13, 3, 1, 19, 70, 13, 3, 1, 19, 73, 13, 3, 1, 19, 65, 13, 3, 1, 19, 70, 13, 3, 1, 19, 73, 13, 3, 1, 19, 65, 13, 3, 1, 19, 70, 13, 3, 1, 19, 73, 13, 0, 0, 3, 1,
@@ -140,7 +140,7 @@ short   musicScore[3][1130] =
     }
 };
 
-int     sfxPitch[][50] =
+static int      sfxPitch[][50] =
 {
     {96, 90, 84, 78, 72, 66, 60, 54, 0},
     {84, 81, 78, 75, 72, 69, 66, 63, 60, 57, 54, 51, 48, 45, 42, 39, 0},
@@ -150,7 +150,7 @@ int     sfxPitch[][50] =
     {0}
 };
 
-CHANNEL audioChannel[NCHANNELS] =
+static CHANNEL  audioChannel[NCHANNELS] =
 {
     {{0, 0, 0}, {0, 0, 0}, 0, 0, DoNothing},
     {{0, 0, 0}, {0, 0, 0}, 0, 0, DoNothing},
@@ -162,7 +162,7 @@ CHANNEL audioChannel[NCHANNELS] =
     {{MUSICVOLUME, -MUSICVOLUME, 0}, {-MUSICVOLUME, MUSICVOLUME, 0}, 0, 0, DoNothing}
 };
 
-CHANNEL *musicChannel[NMUSIC] = // mapping
+static CHANNEL  *musicChannel[NMUSIC] = // mapping
 {
     &audioChannel[3],
     &audioChannel[4],
@@ -171,29 +171,30 @@ CHANNEL *musicChannel[NMUSIC] = // mapping
     &audioChannel[7]
 };
 
-SFX     sfxInfo[NSFX] =
+static SFX      sfxInfo[NSFX] =
 {
     {sfxPitch[SFX_NONE], 0, &audioChannel[0], 0, DoNothing, DoNothing},
     {sfxPitch[SFX_NONE], 0, &audioChannel[1], 0, DoNothing, DoNothing},
     {sfxPitch[SFX_NONE], 0, &audioChannel[2], 0, DoNothing, DoNothing}
 };
 
-int     musicIndex;
-int     musicTempo, musicPitch;
-int     musicClock = 0, musicDelta;
-short   *curMusic;
-int     samplesMusic = 0;
+static int      musicIndex;
+static int      musicTempo, musicPitch;
+static int      musicClock = 0, musicDelta;
+static short    *curMusic;
+static int      samplesMusic = 0;
 
-int     audioMusicPlaying = MUS_STOP;
-int     audioPanX;
-int     musicChannels = 0;
+static int      musicChannels = 0;
 
-int     sfxClock = 0;
-int     samplesSfx = 0;
+static int      sfxClock = 0;
+static int      samplesSfx = 0;
 
-TIMER   timerSfx, timerMusic;
-CHANNEL *curChannel;
-SFX     *curSfx;
+static TIMER    timerSfx, timerMusic;
+static CHANNEL  *curChannel;
+static SFX      *curSfx;
+
+int             audioMusicPlaying = MUS_STOP;
+int             audioPanX;
 
 void Audio_ReduceMusicSpeed()
 {
@@ -202,7 +203,7 @@ void Audio_ReduceMusicSpeed()
     Timer_Set(&timerMusic, SAMPLERATE, musicTempo);
 }
 
-void DoPhase()
+static void DoPhase()
 {
     UINT    phase = curChannel->phase >> 31;
 
@@ -212,14 +213,14 @@ void DoPhase()
     curChannel->phase += curChannel->frequency;
 }
 
-void DoChannelOff()
+static void DoChannelOff()
 {
     curChannel->DoPhase = DoNothing;
     curChannel->left[2] = 0;
     curChannel->right[2] = 0;
 }
 
-void ChannelStereo(CHANNEL *channel, int left, int right)
+static void ChannelStereo(CHANNEL *channel, int left, int right)
 {
     left = SFXVOLUME * left >> 8;
     right = SFXVOLUME * right >> 8;
@@ -230,18 +231,18 @@ void ChannelStereo(CHANNEL *channel, int left, int right)
     channel->right[1] = right;
 }
 
-void ChannelPan(CHANNEL *channel, int pan)
+static void ChannelPan(CHANNEL *channel, int pan)
 {
     ChannelStereo(channel, panTable[L][pan], panTable[R][pan]);
 }
 
-void DoSfxOff()
+static void DoSfxOff()
 {
     curSfx->DoSfx = DoNothing;
     curSfx->channel->DoPhase = DoChannelOff;
 }
 
-void DoSfxOn()
+static void DoSfxOn()
 {
     curSfx->channel->DoPhase = DoPhase;
     curSfx->DoSfx = curSfx->DoPlay;
@@ -249,7 +250,7 @@ void DoSfxOn()
     curSfx->DoSfx();
 }
 
-void DoSfxPlay()
+static void DoSfxPlay()
 {
     curSfx->channel->frequency = frequencyTable[*curSfx->pitch];
     curSfx->clock += curSfx->length;
@@ -263,7 +264,7 @@ void DoSfxPlay()
     curSfx->DoSfx = DoSfxOff;
 }
 
-void DoSfxWilly()
+static void DoSfxWilly()
 {
     curSfx->channel->DoPhase = DoPhase;
     curSfx->clock += curSfx->length;
@@ -331,7 +332,7 @@ void Audio_Sfx(int sfx)
     curSfx->clock = sfxClock;
 }
 
-void MusicReset()
+static void MusicReset()
 {
     int index;
 

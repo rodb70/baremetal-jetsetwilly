@@ -21,7 +21,7 @@ typedef struct
 }
 TILE;
 
-int         levelData[][512] =
+static int      levelData[][512] =
 {
     { // 1
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1105,7 +1105,7 @@ int         levelData[][512] =
     }
 };
 
-BYTE        levelGfx[60][10][8] =
+static BYTE     levelGfx[60][10][8] =
 {
     {
         SPACE, {24, 24, 60, 126, 98, 98, 98, 126},
@@ -1436,7 +1436,7 @@ BYTE        levelGfx[60][10][8] =
     }
 };
 
-INFO       levelInfo[][12] =
+static INFO     levelInfo[][12] =
 {
     {{0x07, T_SPACE}, {0x00, T_ITEM}, {0x06, T_CONVEYL}, {0x26, T_SOLID}, {0x04, T_FLOOR}, {0x07, T_RAMPR}, {0x01, T_HARM}},
     {{0x07, T_SPACE}, {0x00, T_ITEM}, {0x54, T_CONVEYR}, {0x06, T_SOLID}, {0x04, T_FLOOR}, {0x06, T_RAMPR}, {0x57, T_HARM}},
@@ -1500,7 +1500,7 @@ INFO       levelInfo[][12] =
     {{0x07, T_SPACE}, {0x00, T_ITEM}, {0x16, T_CONVEYR}, {0x75, T_SOLID}, {0x04, T_FLOOR}, {0x07, T_RAMPL}, {0x17, T_HARM}}
 };
 
-int         levelItem[][12] =
+static int      levelItem[][12] =
 {
     {147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158}, {0}, {22}, {324, 353, 359}, {0}, {0}, {0}, {239}, {0}, {357},
     {139}, {0}, {112, 150, 435}, {37, 194}, {90, 122}, {159}, {159}, {159}, {409}, {98},
@@ -1510,13 +1510,13 @@ int         levelItem[][12] =
     {455}, {0}, {0}, {0}, {0}, {326, 379, 435, 457}, {311}, {438, 450}, {461}, {282}
 };
 
-int         levelItemCount[] = {12, 0, 1, 3, 0, 0, 0, 1, 0, 1, 1, 0, 3, 2, 2, 1, 1, 1, 1, 1, 0, 7, 2, 0, 0, 4, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 3, 1, 0, 1, 0, 0, 4, 1, 0, 2, 0, 6, 4, 1, 0, 0, 0, 0, 4, 1, 2, 1, 1};
+static int      levelItemCount[] = {12, 0, 1, 3, 0, 0, 0, 1, 0, 1, 1, 0, 3, 2, 2, 1, 1, 1, 1, 1, 0, 7, 2, 0, 0, 4, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 3, 1, 0, 1, 0, 0, 4, 1, 0, 2, 0, 6, 4, 1, 0, 0, 0, 0, 4, 1, 2, 1, 1};
 
-BYTE        *conveyRotate[2];
-BYTE        *gfxSpace = (BYTE [8])SPACE;
+static BYTE     *conveyRotate[2];
+static BYTE     *gfxSpace = (BYTE [8])SPACE;
 
-TILE        levelTile[512], *curTile;
-int         curCell;
+static TILE     levelTile[512], *curTile;
+static int      curCell;
 
 int Level_ItemCount()
 {
@@ -1543,18 +1543,18 @@ void Level_RestoreItems()
     }
 }
 
-void DoTile()
+static void DoTile()
 {
     Video_DrawTile(curCell, curTile->gfx, curTile->paper[2], curTile->ink[2]);
 }
 
-void DoItem()
+static void DoItem()
 {
     curTile->ink[2] = ((curTile->ink[2] - 2) & 3) + 3;
     DoTile();
 }
 
-void DoFlash()
+static void DoFlash()
 {
     curTile->paper[2] = curTile->paper[videoFlash];
     curTile->ink[2] = curTile->ink[videoFlash];

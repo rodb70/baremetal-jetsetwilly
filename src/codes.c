@@ -5,7 +5,7 @@
 
 #define CODE(p, s)  ((codesCode[p] - 1) << s)
 
-int     codesDigit[180] =
+static int      codesDigit[180] =
 {
     43, 76, 15, 123, 206, 101, 35, 212, 99, 39, 8, 55, 204, 37, 1, 32, 2, 81,
     44, 202, 222, 181, 47, 83, 74, 179, 90, 45, 154, 27, 165, 71, 44, 238, 124, 65,
@@ -19,7 +19,7 @@ int     codesDigit[180] =
     160, 109, 112, 29, 195, 210, 141, 118, 62, 180, 141, 213, 181, 134, 138, 115, 208, 118
 };
 
-WORD    codesSprite[4][16] =
+static WORD     codesSprite[4][16] =
 {
     {32766, 49923, 49149, 49149, 65533, 65533, 65533, 63997, 61951, 63999, 63999, 63999, 63997, 63997, 65531, 32766},
     {32766, 50947, 49149, 49149, 65533, 65533, 65533, 61951, 60671, 64767, 63999, 62463, 59391, 57597, 65523, 32766},
@@ -27,14 +27,14 @@ WORD    codesSprite[4][16] =
     {32766, 50691, 49149, 49149, 49149, 49151, 65535, 65023, 63999, 61951, 59903, 57599, 63999, 63997, 65435, 32766}
 };
 
-int     codesAttempt = 1;
-int     codesNeeded;
-int     codesPos, codesPosLast = 0;
-int     codesCode[4];
-int     codesKey;
-char    codesCell[7] = "\x1\x0\x2\x7\x14\x14";
+static int      codesAttempt = 1;
+static int      codesNeeded;
+static int      codesPos, codesPosLast = 0;
+static int      codesCode[4];
+static int      codesKey;
+static char     codesCell[7] = "\x1\x0\x2\x7\x14\x14";
 
-void DrawCursor(int pos)
+static void DrawCursor(int pos)
 {
     int pixel = 88 * WIDTH + 16 * 8;
 
@@ -45,7 +45,7 @@ void DrawCursor(int pos)
     Video_Write(pixel + pos * 24, codesCell);
 }
 
-void GetCode()
+static void GetCode()
 {
     char    location[5] = "\x2\x7  ";
 
@@ -72,7 +72,7 @@ void GetCode()
     DrawCursor(3);
 }
 
-void DoCodesDrawer()
+static void DoCodesDrawer()
 {
     codesCell[3] = '\x7';
     DrawCursor(codesPos);
@@ -88,7 +88,7 @@ void DoCodesDrawer()
     codesKey = 0;
 }
 
-void DoCodesTicker()
+static void DoCodesTicker()
 {
     if (videoFlash)
     {
@@ -112,7 +112,7 @@ void DoCodesTicker()
     codesPos &= 3;
 }
 
-void DoCodesResponder()
+static void DoCodesResponder()
 {
     switch (gameInput)
     {

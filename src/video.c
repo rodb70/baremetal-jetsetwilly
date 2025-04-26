@@ -9,9 +9,9 @@ typedef struct
 }
 PIXEL;
 
-PIXEL   videoPixel[WIDTH * HEIGHT];
+static PIXEL    videoPixel[WIDTH * HEIGHT];
 
-BYTE    charSet[128][10] =
+static BYTE     charSet[128][10] =
 {
     {0},
     {0}, // paper
@@ -124,7 +124,7 @@ BYTE    charSet[128][10] =
     {9, 60, 66, 153, 165, 165, 129, 66, 60, 0}
 };
 
-WORD    charSetLarge[96][8] =
+static WORD     charSetLarge[96][8] =
 {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 60, 7166, 7166, 60, 0, 0},
@@ -224,7 +224,7 @@ WORD    charSetLarge[96][8] =
     {4080, 6168, 13260, 9252, 9252, 12876, 6168, 4080}
 };
 
-BYTE    textInk[2] = {0x0, 0x0};
+static BYTE     textInk[2] = {0x0, 0x0};
 
 int Video_GetPixel(int pos)
 {
@@ -427,7 +427,7 @@ void Video_DrawSprite(int pos, WORD *line, BYTE paper, BYTE ink)
     }
 }
 
-int TextCode(char *text)
+static int TextCode(char *text)
 {
     if (*text == 0x1)
     {

@@ -18,7 +18,7 @@ typedef struct
 }
 JUMP;
 
-WORD    minerSprite[8][16] =
+WORD            minerSprite[8][16] =
 {
     {3840, 3840, 8064, 2816, 7936, 3840, 1536, 3840, 8064, 16320, 32736, 28512, 7936, 23424, 28864, 12736},
     {960, 960, 2016, 704, 1984, 960, 384, 960, 2016, 2016, 3824, 3568, 960, 1760, 1888, 3808},
@@ -30,7 +30,7 @@ WORD    minerSprite[8][16] =
     {240, 240, 504, 208, 248, 240, 96, 240, 504, 1020, 2046, 1782, 248, 474, 782, 908}
 };
 
-JUMP    jumpInfo[] =
+static JUMP     jumpInfo[] =
 {
     {-4, -32, 6, 5, 72},
     {-4, 0, 4, 5, 74},
@@ -52,13 +52,15 @@ JUMP    jumpInfo[] =
     {4, 32, 4, 5, 72}
 };
 
-MINER   minerWilly, minerStore;
-WORD    (*minerFrame)[16];
-int     minerAttrSplit;
-int     minerAlign;
+static MINER    minerStore;
+static WORD     (*minerFrame)[16];
+static int      minerAlign;
 
-BYTE    minerSeqIndex;
-int     minerSeq[] = {4, 5, 6, 7, 3, 2, 1, 0};
+BYTE            minerSeqIndex;
+static int      minerSeq[] = {4, 5, 6, 7, 3, 2, 1, 0};
+
+MINER           minerWilly;
+int             minerAttrSplit;
 
 WORD *Miner_GetSprite()
 {
@@ -97,7 +99,7 @@ void Miner_Save()
     minerFrame = gameLevel == NIGHTMAREROOM ? robotGfx[20] : minerSprite;
 }
 
-int IsSolid(int tile)
+static int IsSolid(int tile)
 {
     if (tile < 0 || tile == 512)
     {
@@ -137,7 +139,7 @@ int IsSolid(int tile)
     return 0;
 }
 
-void MoveLeftRight()
+static void MoveLeftRight()
 {
     int y = 0, offset = 0;
 
@@ -236,7 +238,7 @@ void MoveLeftRight()
     minerWilly.tile += offset;
 }
 
-void UpdateDir(int conveyDir)
+static void UpdateDir(int conveyDir)
 {
     int dir = 0;
 
@@ -298,7 +300,7 @@ void UpdateDir(int conveyDir)
     }
 }
 
-void DoMinerTicker()
+static void DoMinerTicker()
 {
     int tile, type[2], y;
     int conveyDir = C_NONE;

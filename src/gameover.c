@@ -3,15 +3,15 @@
 #include "audio.h"
 #include "game.h"
 
-WORD    plinthSprite[16] = {14316, 30702, 0, 28662, 61431, 61431, 54619, 56251, 54619, 57339, 60791, 61175, 28022, 0, 30702, 14316};
-WORD    bootSprite[16] = {4224, 4224, 4224, 4224, 4224, 4224, 4224, 8320, 8320, 18498, 34869, 33801, 32769, 32770, 17293, 15478};
+static WORD     plinthSprite[16] = {14316, 30702, 0, 28662, 61431, 61431, 54619, 56251, 54619, 57339, 60791, 61175, 28022, 0, 30702, 14316};
+static WORD     bootSprite[16] = {4224, 4224, 4224, 4224, 4224, 4224, 4224, 8320, 8320, 18498, 34869, 33801, 32769, 32770, 17293, 15478};
 
-int     bootTicks;
+static int      bootTicks;
 
-char    textGame[18] = "\x1\x0\x2\x0" "G " "\x2\x0" "a " "\x2\x0" "m " "\x2\x0" "e";
-char    textOver[18] = "\x1\x0\x2\x0" "O " "\x2\x0" "v " "\x2\x0" "e " "\x2\x0" "r";
+static char     textGame[18] = "\x1\x0\x2\x0" "G " "\x2\x0" "a " "\x2\x0" "m " "\x2\x0" "e";
+static char     textOver[18] = "\x1\x0\x2\x0" "O " "\x2\x0" "v " "\x2\x0" "e " "\x2\x0" "r";
 
-void Gameover_Drawer()
+static void Gameover_Drawer()
 {
     if (bootTicks <= 96)
     {
@@ -28,7 +28,7 @@ void Gameover_Drawer()
     Video_WriteLarge(18 * 8, 6 * 8, textOver);
 }
 
-void Gameover_Ticker()
+static void Gameover_Ticker()
 {
     int c = bootTicks >> 2;
 
@@ -51,7 +51,7 @@ void Gameover_Ticker()
     Action = Title_Action;
 }
 
-void Gameover_Init()
+static void Gameover_Init()
 {
     System_Border(0x0);
     Video_PixelFill(0, 128 * WIDTH);

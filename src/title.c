@@ -3,7 +3,7 @@
 #include "audio.h"
 #include "game.h"
 
-int     titleJSW[] =
+static int      titleJSW[] =
 {
     100, 101, 102, 104, 105, 106, 108, 109, 110, 113, 114, 115, 117, 118, 119, 121, 122, 123,
     133, 136, 141, 145, 149, 154,
@@ -17,16 +17,16 @@ int     titleJSW[] =
     454, 455, 456, 457, 458, 460, 462, 463, 464, 466, 467, 468, 471
 };
 
-char    textJSW[6] = "\x1\x2\x2\xb\x14";
+static char     textJSW[6] = "\x1\x2\x2\xb\x14";
 
-char    textTicker[] = "      Press ENTER to Start                                JET-SET WILLY by Matthew Smith   1984 SOFTWARE PROJECTS Ltd                                Guide Willy to collect all the items around the house before Midnight so Maria will let you get to your bed                                Press ENTER to Start      ";
+static char     textTicker[] = "      Press ENTER to Start                                JET-SET WILLY by Matthew Smith   1984 SOFTWARE PROJECTS Ltd                                Guide Willy to collect all the items around the house before Midnight so Maria will let you get to your bed                                Press ENTER to Start      ";
 
-int     textPos, textEnd = (int)sizeof(textTicker) - 33;
-int     textFrame;
-BYTE    colourCycle;
-int     colourCycleAdj[6] = {1, 2, 3, 4, 5, 1};
+static int      textPos, textEnd = (int)sizeof(textTicker) - 33;
+static int      textFrame;
+static BYTE     colourCycle;
+static int      colourCycleAdj[6] = {1, 2, 3, 4, 5, 1};
 
-void GameStart()
+static void GameStart()
 {
     Video_PixelFill(128 * WIDTH, 64 * WIDTH);
 
@@ -50,7 +50,7 @@ void GameStart()
     Game_Action();
 }
 
-void DoTitleTicker()
+static void DoTitleTicker()
 {
     if (audioMusicPlaying)
     {
@@ -86,7 +86,7 @@ void DoTitleTicker()
     Action = Title_Action;
 }
 
-void DoTitleDrawer()
+static void DoTitleDrawer()
 {
     int tile, *pos = &titleJSW[0];
 
@@ -109,7 +109,7 @@ void DoTitleDrawer()
     Video_WriteLarge(-(textFrame & 6), 19 * 8, textTicker + textPos);
 }
 
-void DoTitleResponder()
+static void DoTitleResponder()
 {
     if (gameInput == KEY_ENTER)
     {
@@ -121,7 +121,7 @@ void DoTitleResponder()
     }
 }
 
-void DoTitleInit()
+static void DoTitleInit()
 {
     System_Border(0x0);
     Video_PixelFill(0, WIDTH * HEIGHT);

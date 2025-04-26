@@ -21,7 +21,7 @@ typedef struct
 }
 ROBOT;
 
-WORD    robotGfx[45][8][16] =
+WORD            robotGfx[45][8][16] =
 {
     {
         {15, 63, 15, 12303, 3087, 783, 207, 47, 8, 16376, 16368, 16366, 8159, 8155, 4091, 4091},
@@ -293,19 +293,19 @@ WORD    robotGfx[45][8][16] =
     }
 };
 
-void DoMoveLeft();
-void DoMoveRight();
-void DoMoveUp();
-void DoMoveDown();
-void DoMoveArrowLeft();
-void DoMoveArrowRight();
-void DoMoveStatic();
-void DoMoveMaria();
-void DoDrawRobot();
-void DoDrawArrow();
-void DoDrawToilet();
+static void DoMoveLeft();
+static void DoMoveRight();
+static void DoMoveUp();
+static void DoMoveDown();
+static void DoMoveArrowLeft();
+static void DoMoveArrowRight();
+static void DoMoveStatic();
+static void DoMoveMaria();
+static void DoDrawRobot();
+static void DoDrawArrow();
+static void DoDrawToilet();
 
-ROBOT   robotStart[][8] =
+static ROBOT    robotStart[][8] =
 {
     {
         {POS(10, 48), POS(10, 8), POS(10, 104), DoMoveDown, DoDrawRobot, 4, robotGfx[36], 0x5, 2, 0, 0b011},
@@ -686,7 +686,7 @@ ROBOT   robotStart[][8] =
     }
 };
 
-ROBOT   robotThis[8], *curRobot;
+static ROBOT    robotThis[8], *curRobot;
 
 void Robots_DrawCheat()
 {
@@ -701,7 +701,7 @@ void Robots_Flush()
     robotThis[1].fUpdate = 0; // slow down the animation
 }
 
-void DoMoveLeft()
+static void DoMoveLeft()
 {
     if (curRobot->fIndex > 0)
     {
@@ -722,7 +722,7 @@ void DoMoveLeft()
     }
 }
 
-void DoMoveRight()
+static void DoMoveRight()
 {
     if (curRobot->fIndex < 7)
     {
@@ -743,7 +743,7 @@ void DoMoveRight()
     }
 }
 
-void DoMoveUp()
+static void DoMoveUp()
 {
     curRobot->fUpdate ^= 1;
     if (curRobot->fUpdate)
@@ -759,7 +759,7 @@ void DoMoveUp()
     }
 }
 
-void DoMoveDown()
+static void DoMoveDown()
 {
     curRobot->fUpdate ^= 1;
     if (curRobot->fUpdate)
@@ -774,7 +774,7 @@ void DoMoveDown()
     }
 }
 
-void DoMoveStatic()
+static void DoMoveStatic()
 {
     // all static sprites only alternate between 2 frames
     // i.e. 0 & 1 or 2 & 3
@@ -785,7 +785,7 @@ void DoMoveStatic()
     }
 }
 
-void DoMoveArrowLeft()
+static void DoMoveArrowLeft()
 {
     curRobot->max--;
     if (curRobot->max == 44)
@@ -802,7 +802,7 @@ void DoMoveArrowLeft()
     curRobot->min = curRobot->max * 8;
 }
 
-void DoMoveArrowRight()
+static void DoMoveArrowRight()
 {
     curRobot->max++;
     if (curRobot->max == 244)
@@ -819,7 +819,7 @@ void DoMoveArrowRight()
     curRobot->min = curRobot->max * 8;
 }
 
-void DoMoveMaria()
+static void DoMoveMaria()
 {
     if (minerWilly.y < 96 && minerWilly.air == 0)
     {
@@ -847,17 +847,17 @@ void Robots_Ticker()
     }
 }
 
-void DoDrawRobot()
+static void DoDrawRobot()
 {
     Video_DrawRobot(curRobot->pos, curRobot->gfx[curRobot->fIndex & curRobot->fMask], curRobot->ink);
 }
 
-void DoDrawToilet()
+static void DoDrawToilet()
 {
     Video_DrawSprite(curRobot->pos, curRobot->gfx[curRobot->fIndex & curRobot->fMask], 0x0, 0x7);
 }
 
-void DoDrawArrow()
+static void DoDrawArrow()
 {
     if (curRobot->max < 32)
     {

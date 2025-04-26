@@ -2,15 +2,15 @@
 #include "video.h"
 #include "audio.h"
 
-int     loaderTicks = 0;
-char    loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";
+static int      loaderTicks = 0;
+static char     loaderText[25] = "\x1\x7\x2\x2" "JetSet Willy Loading";
 
-void DoLoaderResponder()
+static void DoLoaderResponder()
 {
     Action = Title_Action;
 }
 
-void DoLoaderTicker()
+static void DoLoaderTicker()
 {
     if (videoFlash)
     {
@@ -29,12 +29,12 @@ void DoLoaderTicker()
     }
 }
 
-void DoLoaderDrawer3()
+static void DoLoaderDrawer3()
 {
     Video_WriteLarge(6 * 8, 11 * 8, loaderText);
 }
 
-void DoLoaderDrawer2()
+static void DoLoaderDrawer2()
 {
     if (audioMusicPlaying)
     {
@@ -52,7 +52,7 @@ void DoLoaderDrawer2()
     Drawer = DoLoaderDrawer3;
 }
 
-void DoLoaderDrawer1()
+static void DoLoaderDrawer1()
 {
     System_Border(0x1);
     Video_PixelPaperFill(0, WIDTH * HEIGHT, 0x1);
