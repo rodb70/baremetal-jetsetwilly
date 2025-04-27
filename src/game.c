@@ -456,6 +456,7 @@ void Game_InitRoom()
     }
 
     Timer_Set(&gameTimer, 12, TICKRATE);
+    gameFrame = 1;
     gameInactivityTimer = 0;
 
     Ticker = DoGameTicker;
